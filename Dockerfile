@@ -1,5 +1,5 @@
 # PYTHON.
-FROM python:3.13.0
+FROM python:3.12.7
 
 # Enable Virtual Environment.
 ENV VIRTUAL_ENV=/opt/venv

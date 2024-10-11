@@ -74,6 +74,24 @@ async def root_post():
     return {"message": "https://github.com/Sokrates1989/docker_api_engaige_meal_tracker_demo.git"}
 
 
+
+@app.post("/db_check")
+async def db_check(response: Response):
+    amountServices = dbWrapper.getServiceRepo().getAmountOfServices()
+    if amountServices == False:
+        response.status_code = 503
+        logger.logError("/db_check: 503: amountServices is False")
+        return {"message": "Did not retrieve valid query return"}
+    elif isinstance(amountServices, int):
+        response.status_code = 200
+        logger.logInformation("db_check: 200: api IS UP")
+        return {"message": "api is Up"}
+    else:
+        response.status_code = 503
+        logger.logError("db_check: 503: Unknown error executing db_check")
+        return {"message": "Unknown error executing db_check"}
+
+
 # DEBUG Test the token.
 @app.post("/v1/token")
 async def token(authenticationItem_pydantic: AuthenticationItem_pydantic, response: Response):
@@ -92,7 +110,7 @@ async def token(authenticationItem_pydantic: AuthenticationItem_pydantic, respon
 async def register(credentialsItem_pydantic: CredentialsItem_pydantic, response: Response):
     credentialsItem = convertPydanticModel_to_CredentialsItem(credentialsItem_pydantic)
     if credentialsItem.token == config_array["authentication"]["token"]:
-        createUserReturn = dbWrapper.createUser(credentialsItem)
+        createUserReturn = dbWrapper.getUserRepo().createNewUser_fromCredentialsItem(credentialsItem)
         if createUserReturn is None:
             response.status_code = 406
             logger.logWarning("/v1/register: 406: user already exists: " + credentialsItem.toString())
@@ -112,17 +130,77 @@ async def register(credentialsItem_pydantic: CredentialsItem_pydantic, response:
         return {"message": "invalid token"}
 
 
+# Get online db version of user.
+@app.post("/v1/getDatabaseJson")
+async def getDatabaseJson(credentialsItem_pydantic: CredentialsItem_pydantic, response: Response):
+    credentialsItem = convertPydanticModel_to_CredentialsItem(credentialsItem_pydantic)
+    if credentialsItem.token == config_array["authentication"]["token"]:
+        exportUtils = ExportUtils.ExportUtils()
+        getDatabaseJsonReturn = exportUtils.getDatabaseAsJson(credentialsItem)
+        if getDatabaseJsonReturn is None:
+            response.status_code = 406
+            logger.logWarning("/v1/getDatabaseJson: 406: user does not exists: " + credentialsItem.toString())
+            return {"message": "user does not exists"}
+        elif getDatabaseJsonReturn is False:
+            response.status_code = 401
+            logger.logWarning("/v1/getDatabaseJson: 401: invalid token: " + credentialsItem.toString())
+            return {"message": "invalid token"}
+
+        # Success.
+        elif getDatabaseJsonReturn["returnState"] == "Success":
+            response.status_code = 200
+            logText = "/v1/getDatabaseJson: 200: successfully got DB as json "
+            logText += "for user : " + credentialsItem.toString()
+            logger.logInformation(logText)
+            return getDatabaseJsonReturn["databaseAsJson"]
+
+        elif getDatabaseJsonReturn["returnState"] == "TimeOut":
+            response.status_code = 504
+            logger.logWarning("/v1/getDatabaseJson: 504: TimeOut: " + credentialsItem.toString())
+            return {"message": "TimeOut: Operation took too long"}
+        elif getDatabaseJsonReturn["returnState"] == "ExitError":
+            response.status_code = 500
+            logger.logWarning("/v1/getDatabaseJson: 500: ExitError: ExitCode " + str(
+                return_dict["exitCode"]) + ", User: " + credentialsItem.toString())
+            return {"message": "ExitError: ExitCode " + str(return_dict["exitCode"])}
+        elif getDatabaseJsonReturn["returnState"] == "Invalid Credentials":
+            response.status_code = 401
+            logger.logWarning("/v1/getDatabaseJson: 401: Invalid Credentials: " + credentialsItem.toString())
+            return {"message": "invalid user / password"}
+        else:
+            response.status_code = 500
+            logger.logWarning(
+                "/v1/getDatabaseJson: Unknown Error: " + str(return_dict) + ", User: " + credentialsItem.toString())
+            return {"message": "Unknown Error"}
+
+
+    else:
+        response.status_code = 401
+        logger.logWarning("/v1/getDatabaseJson: 401: invalid token: " + credentialsItem.toString())
+        return {"message": "invalid token"}
+
 
 # Verify user login.
 @app.post("/v1/login")
 async def login(credentialsItem_pydantic: CredentialsItem_pydantic, response: Response):
+    return login_local(credentialsItem_pydantic, response)
+
+def login_local(credentialsItem_pydantic: CredentialsItem_pydantic, response: Response, alreadyAttemptedToUpdateOwnClassVars=False):
     credentialsItem = convertPydanticModel_to_CredentialsItem(credentialsItem_pydantic)
+
     if credentialsItem.token == config_array["authentication"]["token"]:
-        loginUserReturn = dbWrapper.isUserPasswordCorrect(credentialsItem)
+        loginUserReturn = dbWrapper.getUserRepo().isUserPasswordCorrect(credentialsItem)
         if loginUserReturn is None:
-            response.status_code = 406
-            logger.logWarning("/v1/login: 406: user does not exist: " + credentialsItem.toString())
-            return {"message": "user does not exist"}
+
+            # Telegram user might have just been created, but since db is buffered we need to ensure, to have the most current db.
+            if credentialsItem.loginIdentifier == "" or alreadyAttemptedToUpdateOwnClassVars == True:
+                response.status_code = 406
+                logger.logWarning("/v1/login: 406: user does not exist: " + credentialsItem.toString())
+                return {"message": "user does not exist"}
+            else:
+                dbWrapper.updateOwnClassVars()
+                return login_local(credentialsItem_pydantic, response, True)
+
         elif loginUserReturn == False:
             response.status_code = 401
             logger.logWarning("/v1/login: 401: invalid token: " + credentialsItem.toString())
@@ -132,7 +210,7 @@ async def login(credentialsItem_pydantic: CredentialsItem_pydantic, response: Re
             logger.logWarning("/v1/login: 401: invalid password: " + credentialsItem.toString())
             return {"message": "invalid password"}
         elif loginUserReturn == True:
-            userReturn = dbWrapper.getUserByName(credentialsItem.token, credentialsItem.userName)
+            userReturn = dbWrapper.getUserRepo().getUserByCredentialsItem(credentialsItem)
             if userReturn is None:
                 response.status_code = 406
                 logger.logWarning("/v1/login: 406: user does not exist: " + credentialsItem.toString())
@@ -154,7 +232,6 @@ async def login(credentialsItem_pydantic: CredentialsItem_pydantic, response: Re
         response.status_code = 401
         logger.logWarning("/v1/login: 401: invalid token: " + credentialsItem.toString())
         return {"message": "invalid token"}
-
 
 
 # Converts pydantic AuthenticationItem_pydantic to AuthenticationItem.
