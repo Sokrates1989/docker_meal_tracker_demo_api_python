@@ -1,0 +1,24 @@
+{
+	"installPath": "/code",
+	"logger":
+	{
+		"default_logScope":"MEAL_TRACKER_DEMO"
+	},
+	"database":
+	{
+		"host":"10.5.0.1",
+		"user":"meal_tracker_demo_user",
+		"password":"ENTERYOURPASSWORD",
+  		"database":"meal_tracker_demo",
+  		"port":"3306"
+	},
+	"authentication":
+	{
+		"token":"Meal Tracker Demo API Token",
+		"encryption_key":"DB Encryption Key"
+	},
+	"export":
+	{
+		"timeoutDuration":"1"
+	}
+}

@@ -1,0 +1,9 @@
+CREATE TABLE users
+(
+	ID BIGINT NOT NULL AUTO_INCREMENT ,
+	name VARCHAR(512) NOT NULL ,
+	hashedPassword TEXT NOT NULL ,
+
+	PRIMARY KEY (ID),
+	UNIQUE users_name (name)
+) ENGINE = InnoDB;

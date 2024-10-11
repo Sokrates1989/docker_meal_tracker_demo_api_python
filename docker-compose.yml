@@ -1,0 +1,27 @@
+version: "3.9"
+
+networks:
+  mynet:
+    name: mynet
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
+
+services:
+  engaige_meal_tracker_demo_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: engaige_meal_tracker_demo_api
+    volumes:
+      - .:/code  # <--  THIS line enables hot code reloading! and writes logs back to source Dir.
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    networks:
+      - mynet
+    ports:
+      - "${REST_API_PORT}:${REST_API_PORT}"
+    command: ["uvicorn", "main_api_startpoint:app", "--host", "0.0.0.0", "--port", "${REST_API_PORT}"]
+
