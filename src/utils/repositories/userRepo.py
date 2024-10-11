@@ -35,7 +35,7 @@ class UserRepo:
             query = "SELECT " \
                     "ID, " \
                     "AES_DECRYPT(name_encr, '" + str(self.dbWrapper.encryptionKey) + "') as name, " \
-                    "hashedPassword, " \
+                    "hashedPassword " \
                     "FROM users WHERE ID=%s "
             val = (userID,)
             self.dbWrapper.dbCursor.execute(query, val)
@@ -128,18 +128,25 @@ class UserRepo:
     def createNewUser(self, name, hashedPassword, alreadyAttemptedToUpdateOwnClassVars=False):
 
         try:
-            # Prepare insert sql string.
-            sql = "INSERT INTO users (name_encr, hashedPassword) VALUES (" \
-                  "AES_ENCRYPT(%s, '" + str(self.dbWrapper.encryptionKey) + "'), " \
-                  "%s " \
-                  ")"
-            val = (name, hashedPassword)
+            # Does User already exist?
+            user = self.getUserByName(name)
+            if (user == None):
 
-            # Execute insert query.
-            self.dbWrapper.dbCursor.execute(sql, val)
-            self.dbWrapper.dbConnection.commit()
+                # Prepare insert sql string.
+                sql = "INSERT INTO users (name_encr, hashedPassword) VALUES (" \
+                    "AES_ENCRYPT(%s, '" + str(self.dbWrapper.encryptionKey) + "'), " \
+                    "%s " \
+                    ")"
+                val = (name, hashedPassword)
 
-            return self.getUserByID(self.dbWrapper.dbCursor.lastrowid)
+                # Execute insert query.
+                self.dbWrapper.dbCursor.execute(sql, val)
+                self.dbWrapper.dbConnection.commit()
+
+                return self.getUserByID(self.dbWrapper.dbCursor.lastrowid)
+            else:
+                # Return None to indicate, that user already exists.
+                return None
 
         except Exception as e:
             if alreadyAttemptedToUpdateOwnClassVars:

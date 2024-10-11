@@ -192,8 +192,8 @@ def login_local(credentialsItem_pydantic: CredentialsItem_pydantic, response: Re
         loginUserReturn = dbWrapper.getUserRepo().isUserPasswordCorrect(credentialsItem)
         if loginUserReturn is None:
 
-            # Telegram user might have just been created, but since db is buffered we need to ensure, to have the most current db.
-            if credentialsItem.loginIdentifier == "" or alreadyAttemptedToUpdateOwnClassVars == True:
+            # User might have just been created, but since db is buffered we need to ensure, to have the most current db.
+            if credentialsItem.userName == "" or alreadyAttemptedToUpdateOwnClassVars == True:
                 response.status_code = 406
                 logger.logWarning("/v1/login: 406: user does not exist: " + credentialsItem.toString())
                 return {"message": "user does not exist"}
