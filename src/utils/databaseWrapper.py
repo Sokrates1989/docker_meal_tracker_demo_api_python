@@ -21,6 +21,10 @@ sys.path.insert(1, os.path.join(os.path.dirname(__file__), "repositories"))
 
 # Repositories containing logical parts.
 import userRepo as UserRepo
+import dayRepo as DayRepo
+import mealRepo as MealRepo
+import mealTypeRepo as MealTypeRepo
+import dayMealRepo as DayMealRepo
 
 # CredentialsItem from own models to use location independent.
 import credentialsItem as CredentialsItem
@@ -74,6 +78,18 @@ class DatabaseWrapper:
 
     def getUserRepo(self):
         return UserRepo.UserRepo(self)
+
+    def getDayRepo(self):
+        return DayRepo.DayRepo(self)
+
+    def getMealRepo(self):
+        return MealRepo.MealRepo(self)
+
+    def getMealTypeRepo(self):
+        return MealTypeRepo.MealTypeRepo(self)
+
+    def getDayMealRepo(self):
+        return DayMealRepo.DayMealRepo(self)
 
 
     # Determine if authentication is valid.

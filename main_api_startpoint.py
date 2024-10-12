@@ -30,6 +30,8 @@ import authenticationItem as AuthenticationItem
 
 # CredentialsItem from own models to use location independent.
 import credentialsItem as CredentialsItem
+import getMealsItem as MealItem
+import mealItem as GetMealsItem
 
 # Get authentication settings from config file.
 config_file_pathAndName = os.path.join(os.path.dirname(__file__), "config.txt")
@@ -54,6 +56,25 @@ class CredentialsItem_pydantic(BaseModel):
     token: str
     userName: str
     hashedPassword: str
+
+class MealItem_pydantic(BaseModel):
+    token: str
+    userName: str
+    hashedPassword: str
+    year: int
+    month: int
+    day: int
+    mealType: str  # 'breakfast', 'lunch', 'dinner', 'snacks'
+    fat_level: int  # 0: Low, 1: Medium, 2: High
+    sugar_level: int  # 0: Low, 1: Medium, 2: High
+
+class GetMealsItem_pydantic(BaseModel):
+    token: str
+    userName: str
+    hashedPassword: str
+    year: int
+    month: int
+    day: int
 
 
 # Instantiate Fast api.
@@ -232,6 +253,131 @@ def login_local(credentialsItem_pydantic: CredentialsItem_pydantic, response: Re
         response.status_code = 401
         logger.logWarning("/v1/login: 401: invalid token: " + credentialsItem.toString())
         return {"message": "invalid token"}
+    
+
+
+# API Endpoint for adding a meal
+@app.post("/v1/addMeal")
+async def addMeal(mealItem_pydantic: MealItem_pydantic, response: Response):
+    mealItem = convertPydanticModel_to_MealItem(mealItem_pydantic)
+
+    # Check if token is valid
+    if mealItem.credentialsItem.token != config_array["authentication"]["token"]:
+        response.status_code = 401
+        logger.logWarning("/v1/addMeal: 401: invalid token: " + mealItem.credentialsItem.toString())
+        return {"message": "invalid token"}
+
+    # Verify user login
+    loginUserReturn = dbWrapper.getUserRepo().isUserPasswordCorrect(mealItem.credentialsItem)
+    if loginUserReturn == True:
+        user = dbWrapper.getUserRepo().getUserByCredentialsItem(mealItem.credentialsItem)
+        if user is None:
+            response.status_code = 406
+            logger.logWarning("/v1/addMeal: 406: user does not exist: " + mealItem.credentialsItem.toString())
+            return {"message": "user does not exist"}
+        userID = user["ID"]
+
+        # Add meal
+        dayRepo = dbWrapper.getDayRepo()
+        day = dayRepo.getDayByDate(mealItem.year, mealItem.month, mealItem.day)
+        if day is None:
+            day = dayRepo.createNewDay(mealItem.year, mealItem.month, mealItem.day)
+        dayID = day["ID"]
+
+        mealTypeRepo = dbWrapper.getMealTypeRepo()
+        mealTypeID = mealTypeRepo.getMealTypeIDByName(mealItem.mealType.lower())
+        if mealTypeID is None:
+            response.status_code = 400
+            logger.logWarning("/v1/addMeal: 400: invalid meal type: " + mealItem.mealType)
+            return {"message": "invalid meal type"}
+
+        mealRepo = dbWrapper.getMealRepo()
+        meal = mealRepo.createNewMeal(mealItem.fat_level, mealItem.sugar_level)
+        mealID = meal["ID"]
+
+        dayMealRepo = dbWrapper.getDayMealRepo()
+        dayMeal = dayMealRepo.createNewDayMeal(userID, dayID, mealTypeID, mealID)
+        if dayMeal is None:
+            response.status_code = 400
+            logger.logWarning("/v1/addMeal: 400: could not create day meal")
+            return {"message": "could not create day meal"}
+
+        response.status_code = 200
+        logger.logInformation("/v1/addMeal: 200: successfully added meal")
+        return {"message": "successfully added meal"}
+
+    elif loginUserReturn == False:
+        response.status_code = 401
+        logger.logWarning("/v1/addMeal: 401: invalid token: " + mealItem.credentialsItem.toString())
+        return {"message": "invalid token"}
+    elif loginUserReturn == "invalid password":
+        response.status_code = 401
+        logger.logWarning("/v1/addMeal: 401: invalid password: " + mealItem.credentialsItem.toString())
+        return {"message": "invalid password"}
+    else:
+        response.status_code = 500
+        logger.logError("/v1/addMeal: 500: unhandled return from login method")
+        return {"message": "unhandled return from login method"}
+
+# API Endpoint for getting meals for a user
+@app.post("/v1/getMeals")
+async def getMeals(getMealsItem_pydantic: GetMealsItem_pydantic, response: Response):
+    getMealsItem = convertPydanticModel_to_GetMealsItem(getMealsItem_pydantic)
+
+    # Check if token is valid
+    if getMealsItem.credentialsItem.token != config_array["authentication"]["token"]:
+        response.status_code = 401
+        logger.logWarning("/v1/getMeals: 401: invalid token: " + getMealsItem.credentialsItem.toString())
+        return {"message": "invalid token"}
+
+    # Verify user login
+    loginUserReturn = dbWrapper.getUserRepo().isUserPasswordCorrect(getMealsItem.credentialsItem)
+    if loginUserReturn == True:
+        user = dbWrapper.getUserRepo().getUserByCredentialsItem(getMealsItem.credentialsItem)
+        if user is None:
+            response.status_code = 406
+            logger.logWarning("/v1/getMeals: 406: user does not exist: " + getMealsItem.credentialsItem.toString())
+            return {"message": "user does not exist"}
+        userID = user["ID"]
+
+        # Get meals
+        dayRepo = dbWrapper.getDayRepo()
+        day = dayRepo.getDayByDate(getMealsItem.year, getMealsItem.month, getMealsItem.day)
+        if day is None:
+            response.status_code = 404
+            logger.logWarning("/v1/getMeals: 404: day not found")
+            return {"message": "day not found"}
+        dayID = day["ID"]
+
+        dayMealRepo = dbWrapper.getDayMealRepo()
+        dayMeals = dayMealRepo.getDayMealsByUserIDAndDayID(userID, dayID)
+        mealList = []
+        mealTypeRepo = dbWrapper.getMealTypeRepo()
+        mealRepo = dbWrapper.getMealRepo()
+
+        for dayMeal in dayMeals:
+            mealTypeID = dayMeal['fk_meal_type_id']
+            mealID = dayMeal['fk_meal_id']
+
+            mealTypeName = mealTypeRepo.getMealTypeNameByID(mealTypeID)
+            if mealTypeName is None:
+                continue
+
+            meal = mealRepo.getMealByID(mealID)
+            if meal is None:
+                continue
+
+            mealInfo = {
+                'mealType': mealTypeName,
+                'fat_level': meal['fat_level'],
+                'sugar_level': meal['sugar_level'],
+            }
+            mealList.append(mealInfo)
+
+        response.status_code = 200
+        logger.logInformation("/v1/getMeals: 200: successfully retrieved meals")
+        return {"meals": mealList}
+
 
 
 # Converts pydantic AuthenticationItem_pydantic to AuthenticationItem.
@@ -250,3 +396,26 @@ def convertPydanticModel_to_CredentialsItem(credentialsItem_pydantic: Credential
         credentialsItem_pydantic.hashedPassword
     )
     return credentialsItem
+
+# Converts pydantic MealItem_pydantic to MealItem.
+def convertPydanticModel_to_MealItem(mealItem_pydantic: MealItem_pydantic):
+    credentialsItem = convertPydanticModel_to_CredentialsItem(mealItem_pydantic)
+    return MealItem(
+        credentialsItem,
+        mealItem_pydantic.year,
+        mealItem_pydantic.month,
+        mealItem_pydantic.day,
+        mealItem_pydantic.mealType,
+        mealItem_pydantic.fat_level,
+        mealItem_pydantic.sugar_level
+    )
+
+# Converts pydantic GetMealsItem_pydantic to GetMealsItem.
+def convertPydanticModel_to_GetMealsItem(getMealsItem_pydantic: GetMealsItem_pydantic):
+    credentialsItem = convertPydanticModel_to_CredentialsItem(getMealsItem_pydantic)
+    return GetMealsItem(
+        credentialsItem,
+        getMealsItem_pydantic.year,
+        getMealsItem_pydantic.month,
+        getMealsItem_pydantic.day
+    )
