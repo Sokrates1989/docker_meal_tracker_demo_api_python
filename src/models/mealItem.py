@@ -1,5 +1,22 @@
 from credentialsItem import CredentialsItem
 
+
+# Json model of a valid MealItem to send to the api.
+# {
+#     "credentials": {
+#         "token": "XXXX",
+#         "userName": "DemoUser123",
+#         "hashedPassword": "XXXX"
+#     },
+#     "year": 2024,
+#     "month": 10,
+#     "day": 12,
+#     "mealType": "lunch",
+#     "fat_level": 1,
+#     "sugar_level": 2
+# }
+
+
 class MealItem:
 
     # Constructor.

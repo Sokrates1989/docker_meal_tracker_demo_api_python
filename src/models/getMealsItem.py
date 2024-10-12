@@ -1,6 +1,20 @@
 # getMealsItem.py
 from credentialsItem import CredentialsItem
 
+
+# Json model of a valid GetMealsItem to send to the api.
+# {
+#     "credentials": {
+#         "token": "XXXX",
+#         "userName": "DemoUser123",
+#         "hashedPassword": "XXXX"
+#     },
+#     "year": 2024,
+#     "month": 10,
+#     "day": 12
+# }
+
+
 class GetMealsItem:
 
     # Constructor.

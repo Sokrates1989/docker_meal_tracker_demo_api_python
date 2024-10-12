@@ -28,10 +28,10 @@ import logger as Logger
 # AuthenticationItem from own models to use location independent.
 import authenticationItem as AuthenticationItem
 
-# CredentialsItem from own models to use location independent.
+# Own models to use location independent.
 import credentialsItem as CredentialsItem
-import getMealsItem as MealItem
-import mealItem as GetMealsItem
+import getMealsItem as GetMealsItem
+import mealItem as MealItem
 
 # Get authentication settings from config file.
 config_file_pathAndName = os.path.join(os.path.dirname(__file__), "config.txt")
@@ -57,10 +57,9 @@ class CredentialsItem_pydantic(BaseModel):
     userName: str
     hashedPassword: str
 
+
 class MealItem_pydantic(BaseModel):
-    token: str
-    userName: str
-    hashedPassword: str
+    credentials: CredentialsItem_pydantic
     year: int
     month: int
     day: int
@@ -69,9 +68,7 @@ class MealItem_pydantic(BaseModel):
     sugar_level: int  # 0: Low, 1: Medium, 2: High
 
 class GetMealsItem_pydantic(BaseModel):
-    token: str
-    userName: str
-    hashedPassword: str
+    credentials: CredentialsItem_pydantic
     year: int
     month: int
     day: int
@@ -397,10 +394,11 @@ def convertPydanticModel_to_CredentialsItem(credentialsItem_pydantic: Credential
     )
     return credentialsItem
 
+
 # Converts pydantic MealItem_pydantic to MealItem.
 def convertPydanticModel_to_MealItem(mealItem_pydantic: MealItem_pydantic):
-    credentialsItem = convertPydanticModel_to_CredentialsItem(mealItem_pydantic)
-    return MealItem(
+    credentialsItem = convertPydanticModel_to_CredentialsItem(mealItem_pydantic.credentials)
+    return MealItem.MealItem(
         credentialsItem,
         mealItem_pydantic.year,
         mealItem_pydantic.month,
@@ -412,10 +410,11 @@ def convertPydanticModel_to_MealItem(mealItem_pydantic: MealItem_pydantic):
 
 # Converts pydantic GetMealsItem_pydantic to GetMealsItem.
 def convertPydanticModel_to_GetMealsItem(getMealsItem_pydantic: GetMealsItem_pydantic):
-    credentialsItem = convertPydanticModel_to_CredentialsItem(getMealsItem_pydantic)
-    return GetMealsItem(
+    credentialsItem = convertPydanticModel_to_CredentialsItem(getMealsItem_pydantic.credentials)
+    return GetMealsItem.GetMealsItem(
         credentialsItem,
         getMealsItem_pydantic.year,
         getMealsItem_pydantic.month,
         getMealsItem_pydantic.day
     )
+
