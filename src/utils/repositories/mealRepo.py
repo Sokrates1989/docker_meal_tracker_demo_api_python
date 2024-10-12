@@ -42,3 +42,24 @@ class MealRepo:
             else:
                 self.dbWrapper.updateOwnClassVars()
                 return self.dbWrapper.getMealRepo().createNewMeal(fat_level, sugar_level, True)
+
+    def updateMeal(self, mealID, fat_level, sugar_level, alreadyAttemptedToUpdateOwnClassVars=False):
+        """Update the fat and sugar levels of an existing meal in the database."""
+        try:
+            query = """
+            UPDATE meals
+            SET fat_level = %s, sugar_level = %s
+            WHERE ID = %s
+            """
+            val = (fat_level, sugar_level, mealID)
+            self.dbWrapper.dbCursor.execute(query, val)
+            self.dbWrapper.dbConnection.commit()
+
+            return True
+
+        except Exception as e:
+            if alreadyAttemptedToUpdateOwnClassVars:
+                return None
+            else:
+                self.dbWrapper.updateOwnClassVars()
+                return self.dbWrapper.getMealRepo().updateMeal(mealID, fat_level, sugar_level, True)

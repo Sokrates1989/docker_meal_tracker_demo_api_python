@@ -263,6 +263,82 @@ async def addMeal(mealItem_pydantic: MealItem_pydantic, response: Response):
         response.status_code = 500
         logger.logError("/v1/addMeal: 500: unhandled return from login method")
         return {"message": "unhandled return from login method"}
+    
+
+# API Endpoint for editing a meal
+@app.post("/v1/editMeal")
+async def editMeal(mealItem_pydantic: MealItem_pydantic, response: Response):
+    mealItem = convertPydanticModel_to_MealItem(mealItem_pydantic)
+
+    # Check if token is valid
+    if mealItem.credentialsItem.token != config_array["authentication"]["token"]:
+        response.status_code = 401
+        logger.logWarning("/v1/editMeal: 401: invalid token: " + mealItem.credentialsItem.toString())
+        return {"message": "invalid token"}
+
+    # Verify user login
+    loginUserReturn = dbWrapper.getUserRepo().isUserPasswordCorrect(mealItem.credentialsItem)
+    if loginUserReturn == True:
+        user = dbWrapper.getUserRepo().getUserByCredentialsItem(mealItem.credentialsItem)
+        if user is None:
+            response.status_code = 406
+            logger.logWarning("/v1/editMeal: 406: user does not exist: " + mealItem.credentialsItem.toString())
+            return {"message": "user does not exist"}
+        userID = user["ID"]
+
+        # Get the day by date
+        dayRepo = dbWrapper.getDayRepo()
+        day = dayRepo.getDayByDate(mealItem.year, mealItem.month, mealItem.day)
+        if day is None:
+            response.status_code = 404
+            logger.logWarning("/v1/editMeal: 404: day not found")
+            return {"message": "day not found"}
+        dayID = day["ID"]
+
+        # Get the meal type
+        mealTypeRepo = dbWrapper.getMealTypeRepo()
+        mealTypeID = mealTypeRepo.getMealTypeIDByName(mealItem.mealType.lower())
+        if mealTypeID is None:
+            response.status_code = 400
+            logger.logWarning("/v1/editMeal: 400: invalid meal type: " + mealItem.mealType)
+            return {"message": "invalid meal type"}
+
+        # Get the existing meal
+        dayMealRepo = dbWrapper.getDayMealRepo()
+        existingDayMeal = dayMealRepo.getDayMeal(userID, dayID, mealTypeID)
+        if existingDayMeal is None:
+            response.status_code = 404
+            logger.logWarning("/v1/editMeal: 404: meal not found for the specified day")
+            return {"message": "meal not found for the specified day"}
+
+        # Get the meal ID
+        mealID = existingDayMeal["fk_meal_id"]
+
+        # Update the meal
+        mealRepo = dbWrapper.getMealRepo()
+        updateResult = mealRepo.updateMeal(mealID, mealItem.fat_level, mealItem.sugar_level)
+        if updateResult == True:
+            response.status_code = 200
+            logger.logInformation("/v1/editMeal: 200: successfully edited meal")
+            return {"message": "successfully edited meal"}
+        else:
+            response.status_code = 500
+            logger.logError("/v1/editMeal: 500: failed to update meal")
+            return {"message": "failed to update meal"}
+
+    elif loginUserReturn == False:
+        response.status_code = 401
+        logger.logWarning("/v1/editMeal: 401: invalid token: " + mealItem.credentialsItem.toString())
+        return {"message": "invalid token"}
+    elif loginUserReturn == "invalid password":
+        response.status_code = 401
+        logger.logWarning("/v1/editMeal: 401: invalid password: " + mealItem.credentialsItem.toString())
+        return {"message": "invalid password"}
+    else:
+        response.status_code = 500
+        logger.logError("/v1/editMeal: 500: unhandled return from login method")
+        return {"message": "unhandled return from login method"}
+
 
 # API Endpoint for getting meals for a user.
 @app.post("/v1/getMeals")
