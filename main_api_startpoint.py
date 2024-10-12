@@ -313,6 +313,9 @@ async def getMeals(getMealsItem_pydantic: GetMealsItem_pydantic, response: Respo
                 continue
 
             mealInfo = {
+                'year': getMealsItem.year,
+                'month': getMealsItem.month,
+                'day': getMealsItem.day,
                 'mealType': mealTypeName,
                 'fat_level': meal['fat_level'],
                 'sugar_level': meal['sugar_level'],
