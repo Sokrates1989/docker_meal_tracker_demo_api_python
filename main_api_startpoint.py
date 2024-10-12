@@ -19,9 +19,6 @@ sys.path.insert(1, os.path.join(os.path.dirname(__file__), "src/", "models"))
 # Database Connection.
 import databaseWrapper as DatabaseWrapper
 
-# Export database.
-import exportUtils as ExportUtils
-
 # Logger.
 import logger as Logger
 
