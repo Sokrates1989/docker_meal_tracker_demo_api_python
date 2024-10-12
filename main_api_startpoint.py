@@ -316,7 +316,7 @@ async def addMeal(mealItem_pydantic: MealItem_pydantic, response: Response):
         logger.logError("/v1/addMeal: 500: unhandled return from login method")
         return {"message": "unhandled return from login method"}
 
-# API Endpoint for getting meals for a user
+# API Endpoint for getting meals for a user.
 @app.post("/v1/getMeals")
 async def getMeals(getMealsItem_pydantic: GetMealsItem_pydantic, response: Response):
     getMealsItem = convertPydanticModel_to_GetMealsItem(getMealsItem_pydantic)
@@ -374,6 +374,34 @@ async def getMeals(getMealsItem_pydantic: GetMealsItem_pydantic, response: Respo
         response.status_code = 200
         logger.logInformation("/v1/getMeals: 200: successfully retrieved meals")
         return {"meals": mealList}
+    
+
+# API Endpoint for getting all meal types.
+@app.post("/v1/getMealTypes")
+async def getMealTypes(credentials: CredentialsItem_pydantic, response: Response):
+    try:
+        # Validate token
+        if credentials.token != config_array["authentication"]["token"]:
+            response.status_code = 401
+            logger.logWarning("/v1/getMealTypes: 401: invalid token")
+            return {"message": "invalid token"}
+
+        # Fetch meal types
+        mealTypes = dbWrapper.getMealTypeRepo().getAllMealTypes()
+        if mealTypes is None:
+            response.status_code = 500
+            logger.logError("/v1/getMealTypes: 500: error fetching meal types")
+            return {"message": "error fetching meal types"}
+
+        response.status_code = 200
+        logger.logInformation("/v1/getMealTypes: 200: successfully fetched meal types")
+        return {"mealTypes": mealTypes}
+
+    except Exception as e:
+        response.status_code = 500
+        logger.logError(f"/v1/getMealTypes: 500: unhandled exception: {str(e)}")
+        return {"message": "unhandled exception"}
+
 
 
 

@@ -39,3 +39,24 @@ class MealTypeRepo:
             else:
                 self.dbWrapper.updateOwnClassVars()
                 return self.dbWrapper.getMealTypeRepo().getMealTypeNameByID(mealTypeID, True)
+            
+
+    def getAllMealTypes(self):
+        try:
+            query = "SELECT ID, name FROM meal_types ORDER BY ID"
+            self.dbWrapper.dbCursor.execute(query)
+            myresults = self.dbWrapper.dbCursor.fetchall()
+
+            mealTypes = []
+            for result in myresults:
+                mealTypes.append({
+                    'ID': result[0],
+                    'name': result[1]
+                })
+
+            return mealTypes
+
+        except Exception as e:
+            print(f"Error fetching meal types: {e}")
+            return None
+
