@@ -148,55 +148,6 @@ async def register(credentialsItem_pydantic: CredentialsItem_pydantic, response:
         return {"message": "invalid token"}
 
 
-# Get online db version of user.
-@app.post("/v1/getDatabaseJson")
-async def getDatabaseJson(credentialsItem_pydantic: CredentialsItem_pydantic, response: Response):
-    credentialsItem = convertPydanticModel_to_CredentialsItem(credentialsItem_pydantic)
-    if credentialsItem.token == config_array["authentication"]["token"]:
-        exportUtils = ExportUtils.ExportUtils()
-        getDatabaseJsonReturn = exportUtils.getDatabaseAsJson(credentialsItem)
-        if getDatabaseJsonReturn is None:
-            response.status_code = 406
-            logger.logWarning("/v1/getDatabaseJson: 406: user does not exists: " + credentialsItem.toString())
-            return {"message": "user does not exists"}
-        elif getDatabaseJsonReturn is False:
-            response.status_code = 401
-            logger.logWarning("/v1/getDatabaseJson: 401: invalid token: " + credentialsItem.toString())
-            return {"message": "invalid token"}
-
-        # Success.
-        elif getDatabaseJsonReturn["returnState"] == "Success":
-            response.status_code = 200
-            logText = "/v1/getDatabaseJson: 200: successfully got DB as json "
-            logText += "for user : " + credentialsItem.toString()
-            logger.logInformation(logText)
-            return getDatabaseJsonReturn["databaseAsJson"]
-
-        elif getDatabaseJsonReturn["returnState"] == "TimeOut":
-            response.status_code = 504
-            logger.logWarning("/v1/getDatabaseJson: 504: TimeOut: " + credentialsItem.toString())
-            return {"message": "TimeOut: Operation took too long"}
-        elif getDatabaseJsonReturn["returnState"] == "ExitError":
-            response.status_code = 500
-            logger.logWarning("/v1/getDatabaseJson: 500: ExitError: ExitCode " + str(
-                return_dict["exitCode"]) + ", User: " + credentialsItem.toString())
-            return {"message": "ExitError: ExitCode " + str(return_dict["exitCode"])}
-        elif getDatabaseJsonReturn["returnState"] == "Invalid Credentials":
-            response.status_code = 401
-            logger.logWarning("/v1/getDatabaseJson: 401: Invalid Credentials: " + credentialsItem.toString())
-            return {"message": "invalid user / password"}
-        else:
-            response.status_code = 500
-            logger.logWarning(
-                "/v1/getDatabaseJson: Unknown Error: " + str(return_dict) + ", User: " + credentialsItem.toString())
-            return {"message": "Unknown Error"}
-
-
-    else:
-        response.status_code = 401
-        logger.logWarning("/v1/getDatabaseJson: 401: invalid token: " + credentialsItem.toString())
-        return {"message": "invalid token"}
-
 
 # Verify user login.
 @app.post("/v1/login")
@@ -297,7 +248,7 @@ async def addMeal(mealItem_pydantic: MealItem_pydantic, response: Response):
         if dayMeal is None:
             response.status_code = 400
             logger.logWarning("/v1/addMeal: 400: could not create day meal")
-            return {"message": "could not create day meal"}
+            return {"message": "Meal already exists. To edit meal use /v1/editMeal"}
 
         response.status_code = 200
         logger.logInformation("/v1/addMeal: 200: successfully added meal")

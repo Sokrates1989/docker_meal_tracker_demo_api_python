@@ -1,3 +1,5 @@
+import mysql.connector
+
 # dayMealRepo.py
 class DayMealRepo:
 
