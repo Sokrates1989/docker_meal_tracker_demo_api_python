@@ -43,6 +43,8 @@ class MealRepo:
                 self.dbWrapper.updateOwnClassVars()
                 return self.dbWrapper.getMealRepo().createNewMeal(fat_level, sugar_level, True)
 
+
+
     def updateMeal(self, mealID, fat_level, sugar_level, alreadyAttemptedToUpdateOwnClassVars=False):
         """Update the fat and sugar levels of an existing meal in the database."""
         try:
@@ -63,3 +65,33 @@ class MealRepo:
             else:
                 self.dbWrapper.updateOwnClassVars()
                 return self.dbWrapper.getMealRepo().updateMeal(mealID, fat_level, sugar_level, True)
+            
+    
+    def deleteMeal(self, userID, dayID, mealTypeID, mealID, alreadyAttemptedToUpdateOwnClassVars=False):
+        """Delete a meal and its corresponding entry in day_meals."""
+        try:
+            # Delete entry from day_meals
+            query_day_meals = """
+                DELETE FROM day_meals 
+                WHERE fk_user_id = %s AND fk_day_id = %s AND fk_meal_type_id = %s
+            """
+            val_day_meals = (userID, dayID, mealTypeID)
+            self.dbWrapper.dbCursor.execute(query_day_meals, val_day_meals)
+            
+            if self.dbWrapper.dbCursor.rowcount == 0:
+                return False  # day_meals entry not found
+
+            # Now delete the meal from meals
+            query_meal = "DELETE FROM meals WHERE ID = %s"
+            val_meal = (mealID,)
+            self.dbWrapper.dbCursor.execute(query_meal, val_meal)
+            self.dbWrapper.dbConnection.commit()
+
+            return True  # Deletion successful
+
+        except Exception as e:
+            if alreadyAttemptedToUpdateOwnClassVars:
+                return None
+            else:
+                self.dbWrapper.updateOwnClassVars()
+                return self.deleteMeal(userID, dayID, mealTypeID, mealID, True)

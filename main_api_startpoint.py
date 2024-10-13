@@ -29,6 +29,7 @@ import authenticationItem as AuthenticationItem
 import credentialsItem as CredentialsItem
 import getMealsItem as GetMealsItem
 import mealItem as MealItem
+import deleteMealItem as DeleteMealItem
 
 # Get authentication settings from config file.
 config_file_pathAndName = os.path.join(os.path.dirname(__file__), "config.txt")
@@ -63,6 +64,14 @@ class MealItem_pydantic(BaseModel):
     mealType: str  # 'breakfast', 'lunch', 'dinner', 'snacks'
     fat_level: int  # 0: Low, 1: Medium, 2: High
     sugar_level: int  # 0: Low, 1: Medium, 2: High
+
+class DeleteMealItem_pydantic(BaseModel):
+    credentials: CredentialsItem_pydantic
+    year: int
+    month: int
+    day: int
+    mealType: str  # 'breakfast', 'lunch', 'dinner', 'snacks'
+
 
 class GetMealsItem_pydantic(BaseModel):
     credentials: CredentialsItem_pydantic
@@ -338,6 +347,85 @@ async def editMeal(mealItem_pydantic: MealItem_pydantic, response: Response):
         response.status_code = 500
         logger.logError("/v1/editMeal: 500: unhandled return from login method")
         return {"message": "unhandled return from login method"}
+    
+
+# API Endpoint for deleting a meal.
+@app.post("/v1/deleteMeal")
+async def deleteMeal(deleteMealItem_pydantic: DeleteMealItem_pydantic, response: Response):
+    deleteMealItem = convertPydanticModel_to_DeleteMealItem(deleteMealItem_pydantic)
+
+    # Check if token is valid
+    if deleteMealItem.credentialsItem.token != config_array["authentication"]["token"]:
+        response.status_code = 401
+        logger.logWarning("/v1/deleteMeal: 401: invalid token: " + deleteMealItem.credentialsItem.toString())
+        return {"message": "invalid token"}
+
+    # Verify user login
+    loginUserReturn = dbWrapper.getUserRepo().isUserPasswordCorrect(deleteMealItem.credentialsItem)
+    if loginUserReturn == True:
+        user = dbWrapper.getUserRepo().getUserByCredentialsItem(deleteMealItem.credentialsItem)
+        if user is None:
+            response.status_code = 406
+            logger.logWarning("/v1/deleteMeal: 406: user does not exist: " + deleteMealItem.credentialsItem.toString())
+            return {"message": "user does not exist"}
+        userID = user["ID"]
+
+        # Get the day by date
+        dayRepo = dbWrapper.getDayRepo()
+        day = dayRepo.getDayByDate(deleteMealItem.year, deleteMealItem.month, deleteMealItem.day)
+        if day is None:
+            response.status_code = 404
+            logger.logWarning("/v1/deleteMeal: 404: day not found")
+            return {"message": "day not found"}
+        dayID = day["ID"]
+
+        # Get the meal type
+        mealTypeRepo = dbWrapper.getMealTypeRepo()
+        mealTypeID = mealTypeRepo.getMealTypeIDByName(deleteMealItem.mealType.lower())
+        if mealTypeID is None:
+            response.status_code = 400
+            logger.logWarning("/v1/deleteMeal: 400: invalid meal type: " + deleteMealItem.mealType)
+            return {"message": "invalid meal type"}
+
+        # Get the existing meal in day_meals
+        dayMealRepo = dbWrapper.getDayMealRepo()
+        existingDayMeal = dayMealRepo.getDayMeal(userID, dayID, mealTypeID)
+        if existingDayMeal is None:
+            response.status_code = 404
+            logger.logWarning("/v1/deleteMeal: 404: meal not found for the specified day")
+            return {"message": "meal not found for the specified day"}
+
+        # Get the meal ID
+        mealID = existingDayMeal["fk_meal_id"]
+
+        # Delete the meal and day_meals entry
+        deleteResult = dbWrapper.getMealRepo().deleteMeal(userID, dayID, mealTypeID, mealID)
+        if deleteResult == True:
+            response.status_code = 200
+            logger.logInformation("/v1/deleteMeal: 200: successfully deleted meal and day_meal entry")
+            return {"message": "successfully deleted meal"}
+        elif deleteResult == False:
+            response.status_code = 404
+            logger.logWarning("/v1/deleteMeal: 404: meal or day_meal entry not found")
+            return {"message": "meal or day_meal entry not found"}
+        else:
+            response.status_code = 500
+            logger.logError("/v1/deleteMeal: 500: unknown error occurred during deletion")
+            return {"message": "unknown error occurred"}
+
+    elif loginUserReturn == False:
+        response.status_code = 401
+        logger.logWarning("/v1/deleteMeal: 401: invalid token: " + deleteMealItem.credentialsItem.toString())
+        return {"message": "invalid token"}
+    elif loginUserReturn == "invalid password":
+        response.status_code = 401
+        logger.logWarning("/v1/deleteMeal: 401: invalid password: " + deleteMealItem.credentialsItem.toString())
+        return {"message": "invalid password"}
+    else:
+        response.status_code = 500
+        logger.logError("/v1/deleteMeal: 500: unhandled return from login method")
+        return {"message": "unhandled return from login method"}
+
 
 
 # API Endpoint for getting meals for a user.
@@ -461,6 +549,16 @@ def convertPydanticModel_to_MealItem(mealItem_pydantic: MealItem_pydantic):
         mealItem_pydantic.mealType,
         mealItem_pydantic.fat_level,
         mealItem_pydantic.sugar_level
+    )
+
+def convertPydanticModel_to_DeleteMealItem(deleteMealItem_pydantic: DeleteMealItem_pydantic):
+    credentialsItem = convertPydanticModel_to_CredentialsItem(deleteMealItem_pydantic.credentials)
+    return DeleteMealItem.DeleteMealItem(
+        credentialsItem,
+        deleteMealItem_pydantic.year,
+        deleteMealItem_pydantic.month,
+        deleteMealItem_pydantic.day,
+        deleteMealItem_pydantic.mealType
     )
 
 # Converts pydantic GetMealsItem_pydantic to GetMealsItem.
