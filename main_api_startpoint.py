@@ -453,9 +453,10 @@ async def getMeals(getMealsItem_pydantic: GetMealsItem_pydantic, response: Respo
         dayRepo = dbWrapper.getDayRepo()
         day = dayRepo.getDayByDate(getMealsItem.year, getMealsItem.month, getMealsItem.day)
         if day is None:
-            response.status_code = 404
-            logger.logWarning("/v1/getMeals: 404: day not found")
-            return {"message": "day not found"}
+            # If there is no day yet there is also no meal for that day.
+            response.status_code = 200
+            logger.logInformation("/v1/getMeals: 200: successfully retrieved meals (day does not exist -> empty meals)")
+            return {"meals": []}
         dayID = day["ID"]
 
         dayMealRepo = dbWrapper.getDayMealRepo()
