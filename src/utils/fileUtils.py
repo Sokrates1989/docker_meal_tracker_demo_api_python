@@ -84,7 +84,7 @@ def getValidFileNameForString(stringToConvertToFileName: str, fileType: str) -> 
         validFilename = getValidFileNameForString("my *invalid filename#", "txt")
         # Output: "myinvalidfilename.txt"
     """
-    whiteListedCharactersRegEx = "[^a-zA-Z0-9.\-_]"
+    whiteListedCharactersRegEx = r"[^a-zA-Z0-9.\-_]"
     validFilename = re.sub(whiteListedCharactersRegEx, '', str(stringToConvertToFileName))
     validFilename = validFilename[:100]  # Limit the filename to 100 characters.
     return f"{validFilename}.{fileType}"

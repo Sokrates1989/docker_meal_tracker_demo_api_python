@@ -35,6 +35,11 @@ from fastapi import FastAPI, Response
 from pydantic import BaseModel
 import json
 import os
+import sys
+
+# Insert path to allow importing own classes and repositories.
+sys.path.insert(1, os.path.join(os.path.dirname(__file__), "src", "utils"))
+sys.path.insert(1, os.path.join(os.path.dirname(__file__), "src", "models"))
 
 # Custom imports for database, logger, and models
 import databaseWrapper as DatabaseWrapper
