@@ -1,25 +1,40 @@
-## Model used to wrap authentication settings sent to api.
-
-# Json model of a valid AuthenticationItem to send to the api.
-# {
-#   "token": "IOdeFyatMDKyCUmVqtQkk4eGcnBYvvGp6aCakzj0ZdSBBtCfGrQvGn8RSbHuJO7RaI6jzGqDq2zmYNaYwY1NHUQJ7xCtPzblGt96"
-# }
-
-
 class AuthenticationItem:
+    """
+    Model used to wrap authentication settings sent to the API.
 
-	# Constructor.
-	def __init__(self, token):
-		self.token = token
+    Json model of a valid AuthenticationItem to send to the API:
+    {
+      "token": "<your_actual_token_here>"
+    }
 
-	def toString(self):
-		tokenLength = len(str(self.token))
+    Attributes:
+        token (str): The authentication token sent by the user.
+    """
 
-		classAsString = 'AuthenticationItem{'
-		if tokenLength < 3:
-			classAsString += '"token":INVALID_LENGTH---PASSED:"' + str(self.token) + '"'
-		else:
-			classAsString += '"token":"' + str(self.token)[0:3] + '---XXX---' + str(self.token)[tokenLength - 3:] + '"'
-		classAsString += '}'
+    def __init__(self, token: str):
+        """
+        Initializes the AuthenticationItem with a token.
 
-		return classAsString
+        Args:
+            token (str): The authentication token sent by the user.
+        """
+        self.token = token
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the AuthenticationItem, 
+        displaying only the first and last three characters of the token for security reasons.
+
+        Returns:
+            str: A formatted string representation of the AuthenticationItem.
+        """
+        token_length = len(self.token)
+
+        class_as_string = 'AuthenticationItem{'
+        if token_length < 3:
+            class_as_string += f'"token":INVALID_LENGTH---PASSED:"{self.token}"'
+        else:
+            class_as_string += f'"token":"{self.token[:3]}---XXX---{self.token[-3:]}"'
+        class_as_string += '}'
+
+        return class_as_string

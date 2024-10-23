@@ -1,6 +1,6 @@
 
-# Docker API Engaige Meal Tracker Demo
-API to serve as a simple login provider demo.
+# Docker Meal Tracker Demo Api Python
+API to serve as a simple demo to showcase login and meal tracking functionality.
 
 ## Table of Contents
 1. [Initial Setup](#initial-setup)
@@ -23,9 +23,9 @@ API to serve as a simple login provider demo.
 Clone the repository to your local machine:
 
 ```bash
-mkdir -p /path/to/api/directory/meal-tracker-api
-cd /path/to/api/directory/meal-tracker-api
-git clone https://github.com/yourusername/meal-tracker-api.git .
+mkdir -p /path/to/api/directory/meal-tracker-api-python
+cd /path/to/api/directory/meal-tracker-api-python
+git clone https://github.com/yourusername/meal-tracker-api-python.git .
 ```
 
 ### Copy Template Files
@@ -61,21 +61,21 @@ For production deployment, it is recommended to build the Docker image, push it 
 Build the Docker image using the following command:
 
 ```bash
-docker build -t yourdockerhubusername/meal-tracker-api:latest .
+docker build -t yourdockerhubusername/meal-tracker-api-python:latest .
 ```
 
 ### Push to Docker Hub
 Once the image is built, push it to your Docker Hub repository:
 
 ```bash
-docker push yourdockerhubusername/meal-tracker-api:latest
+docker push yourdockerhubusername/meal-tracker-api-python:latest
 ```
 
 ### Deploy Using Docker Swarm
 Deploy the API in a Docker Swarm cluster by pulling the image from Docker Hub:
 
 ```bash
-docker service create --name meal-tracker-api --replicas 3 --publish 8080:8080 yourdockerhubusername/meal-tracker-api:latest
+docker service create --name meal-tracker-api-python --replicas 3 --publish 8080:8080 yourdockerhubusername/meal-tracker-api-python:latest
 ```
 
 Make sure your `.env` and configuration files are properly set up before deploying the service.

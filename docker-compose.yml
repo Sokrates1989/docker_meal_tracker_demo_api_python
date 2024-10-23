@@ -10,11 +10,11 @@ networks:
          gateway: 10.5.0.1
 
 services:
-  engaige_meal_tracker_demo_api:
+  meal_tracker_demo_api_python:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: engaige_meal_tracker_demo_api
+    container_name: meal_tracker_demo_api_python
     volumes:
       - .:/code  # <--  THIS line enables hot code reloading! and writes logs back to source Dir.
     stdin_open: true # docker run -i

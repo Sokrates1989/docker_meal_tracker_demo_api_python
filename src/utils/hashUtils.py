@@ -1,11 +1,49 @@
-## Utilities for password/login like operations using hash algorithm.
+"""
+Utilities for password and login operations using hash algorithms.
 
-# Import hash library to secure login-like behaviour.
+This module provides functions to securely hash passwords using the SHA-512 hash algorithm with the inclusion of a pepper
+and an optional salt. The purpose of this is to ensure secure password handling in login-like scenarios.
+
+Functions:
+    - getSha512: Generates a SHA-512 hash of the given password, pepper, and salt.
+
+Usage example:
+    # Import the module
+    import hashUtils
+
+    # Hash a password with a pepper and optional salt
+    hashed_password = hashUtils.getSha512("myPassword", "myPepper")
+    print(hashed_password)
+
+    # Hash a password with a custom salt
+    hashed_password_with_salt = hashUtils.getSha512("myPassword", "myPepper", "myCustomSalt")
+    print(hashed_password_with_salt)
+"""
+
 import hashlib
 
-# Get Sha512 hash of passed strings.
-def getSha512(password, pepper, salt="CREATE YOUR OWN SALT like This one(just random chars, use UpperCase/lowercase, special chars and numbers preferable): aSDh7u8o134z5890712374ß9v571ß293vß9qe&123801348509134985§124889137"):
-	stringToHash = password + pepper + salt
-	hash_object = hashlib.sha512(stringToHash)
-	hex_dig = hash_object.hexdigest()
-	return hex_dig
+def getSha512(password: str, pepper: str, salt: str = "aSDh7u8o134z5890712374ß9v571ß293vß9qe&123801348509134985§124889137") -> str:
+    """
+    Generates a SHA-512 hash of the given password, pepper, and salt.
+
+    Args:
+        password (str): The password to be hashed.
+        pepper (str): The pepper (a secret value added to the password) for additional security.
+        salt (str, optional): The salt (a random string) to be added to the password and pepper for further security. 
+                              Defaults to a predefined salt.
+
+    Returns:
+        str: The SHA-512 hash of the combined password, pepper, and salt as a hexadecimal string.
+
+    Example:
+        hashed_password = getSha512("myPassword", "myPepper")
+        hashed_password_with_salt = getSha512("myPassword", "myPepper", "myCustomSalt")
+    """
+    # Combine password, pepper, and salt
+    stringToHash = password + pepper + salt
+    
+    # Create a SHA-512 hash object and return the hexadecimal digest
+    hash_object = hashlib.sha512(stringToHash.encode())  # Ensure encoding to bytes
+    hex_dig = hash_object.hexdigest()
+    
+    return hex_dig
