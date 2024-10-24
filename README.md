@@ -118,7 +118,7 @@ Ensure that your `.env` and configuration files are properly set up before deplo
 ### Viewing Documentation Online
 
 An online version of the project's internal developer documentation can be found at:  
-[https://api-python-doku.engaige.fe-wi.com/](https://api-python-doku.engaige.fe-wi.com/)
+[https://api-python-doku.meal-tracker.fe-wi.com/](https://api-python-doku.meal-tracker.fe-wi.com/)
 
 ### Generating API Documentation
 
