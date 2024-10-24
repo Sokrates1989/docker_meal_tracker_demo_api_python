@@ -19,12 +19,12 @@ Dependencies:
 Usage example:
 
     # Import the module
-    import databaseWrapper as DatabaseWrapper
-    import logger as Logger
+    from src.utils.databaseWrapper import DatabaseWrapper
+    from src.utils.logger import Logger
 
     # Initialize components
-    db_wrapper = DatabaseWrapper.DatabaseWrapper()
-    logger = Logger.Logger()
+    db_wrapper = DatabaseWrapper()
+    logger = Logger()
 
     # Run the FastAPI app
     uvicorn.run(app, host="0.0.0.0", port=8000)
@@ -44,13 +44,13 @@ sys.path.insert(1, os.path.join(os.path.dirname(__file__), "src", "utils"))
 sys.path.insert(1, os.path.join(os.path.dirname(__file__), "src", "models"))
 
 # Custom imports for database, logger, and models
-import databaseWrapper as DatabaseWrapper
-import logger as Logger
-import authenticationItem as AuthenticationItem
-import credentialsItem as CredentialsItem
-import getMealsItem as GetMealsItem
-import mealItem as MealItem
-import deleteMealItem as DeleteMealItem
+from src.utils.databaseWrapper import DatabaseWrapper
+from src.utils.logger import Logger
+from src.models.authenticationItem import AuthenticationItem
+from src.models.credentialsItem import CredentialsItem
+from src.models.getMealsItem import GetMealsItem
+from src.models.mealItem import MealItem
+from src.models.deleteMealItem import DeleteMealItem
 
 # Configuration setup
 config_file_path = os.path.join(os.path.dirname(__file__), "config.txt")
@@ -58,8 +58,8 @@ with open(config_file_path, 'r') as config_file:
     config_array = json.load(config_file)
 
 # Initialize database wrapper and logger
-db_wrapper = DatabaseWrapper.DatabaseWrapper()
-logger = Logger.Logger()
+db_wrapper = DatabaseWrapper()
+logger = Logger()
 
 # Instantiate Fast api with Middleware to allow CORS (Options) Requests.
 # Web-Apps in browsers often/ usually send CORS requests as "preflight" to other requests.
@@ -483,12 +483,12 @@ async def get_meal_types(credentials: CredentialsItemPydantic, response: Respons
 # Helper functions for converting Pydantic models to internal models
 def convert_pydantic_to_authentication_item(auth_pydantic: AuthenticationItemPydantic):
     """Converts a Pydantic AuthenticationItem model to the internal AuthenticationItem."""
-    return AuthenticationItem.AuthenticationItem(auth_pydantic.token)
+    return AuthenticationItem(auth_pydantic.token)
 
 
 def convert_pydantic_to_credentials_item(credentials_pydantic: CredentialsItemPydantic):
     """Converts a Pydantic CredentialsItem model to the internal CredentialsItem."""
-    return CredentialsItem.CredentialsItem(
+    return CredentialsItem(
         credentials_pydantic.token,
         credentials_pydantic.userName,
         credentials_pydantic.hashedPassword
@@ -498,7 +498,7 @@ def convert_pydantic_to_credentials_item(credentials_pydantic: CredentialsItemPy
 def convert_pydantic_to_meal_item(meal_pydantic: MealItemPydantic):
     """Converts a Pydantic MealItem model to the internal MealItem."""
     credentials_item = convert_pydantic_to_credentials_item(meal_pydantic.credentials)
-    return MealItem.MealItem(
+    return MealItem(
         credentials_item,
         meal_pydantic.year,
         meal_pydantic.month,
@@ -512,7 +512,7 @@ def convert_pydantic_to_meal_item(meal_pydantic: MealItemPydantic):
 def convert_pydantic_to_delete_meal_item(delete_meal_pydantic: DeleteMealItemPydantic):
     """Converts a Pydantic DeleteMealItem model to the internal DeleteMealItem."""
     credentials_item = convert_pydantic_to_credentials_item(delete_meal_pydantic.credentials)
-    return DeleteMealItem.DeleteMealItem(
+    return DeleteMealItem(
         credentials_item,
         delete_meal_pydantic.year,
         delete_meal_pydantic.month,
@@ -524,7 +524,7 @@ def convert_pydantic_to_delete_meal_item(delete_meal_pydantic: DeleteMealItemPyd
 def convert_pydantic_to_get_meals_item(get_meals_pydantic: GetMealsItemPydantic):
     """Converts a Pydantic GetMealsItem model to the internal GetMealsItem."""
     credentials_item = convert_pydantic_to_credentials_item(get_meals_pydantic.credentials)
-    return GetMealsItem.GetMealsItem(
+    return GetMealsItem(
         credentials_item,
         get_meals_pydantic.year,
         get_meals_pydantic.month,

@@ -40,14 +40,14 @@ sys.path.insert(1, os.path.join(os.path.dirname(__file__), "..", "models"))
 sys.path.insert(1, os.path.join(os.path.dirname(__file__), "repositories"))
 
 # Repositories containing logical parts.
-import userRepo as UserRepo
-import dayRepo as DayRepo
-import mealRepo as MealRepo
-import mealTypeRepo as MealTypeRepo
-import dayMealRepo as DayMealRepo
+from src.utils.repositories.userRepo import UserRepo
+from src.utils.repositories.dayRepo import DayRepo
+from src.utils.repositories.mealRepo import MealRepo
+from src.utils.repositories.mealTypeRepo import MealTypeRepo
+from src.utils.repositories.dayMealRepo import DayMealRepo
 
 # CredentialsItem from own models to use location independent.
-import credentialsItem as CredentialsItem
+from src.models.credentialsItem import CredentialsItem
 
 
 class DatabaseWrapper:
@@ -71,8 +71,8 @@ class DatabaseWrapper:
         and setting the database cursor, token, and encryption key from the configuration file.
         """
         # Get database credentials from the config file.
-        config_file_pathAndName = os.path.join(os.path.dirname(__file__), "..", "..", "config.txt")
-        with open(config_file_pathAndName) as config_file:
+        config_file_path_and_name = os.path.join(os.path.dirname(__file__), "..", "..", "config.txt")
+        with open(config_file_path_and_name) as config_file:
             config_array = json.load(config_file)
 
         # Establish the database connection.
@@ -92,8 +92,8 @@ class DatabaseWrapper:
         Updates class variables like the database connection and cursor by reloading
         credentials from the configuration file.
         """
-        config_file_pathAndName = os.path.join(os.path.dirname(__file__), "..", "..", "config.txt")
-        with open(config_file_pathAndName) as config_file:
+        config_file_path_and_name = os.path.join(os.path.dirname(__file__), "..", "..", "config.txt")
+        with open(config_file_path_and_name) as config_file:
             config_array = json.load(config_file)
 
         # Re-establish the database connection.
@@ -108,50 +108,50 @@ class DatabaseWrapper:
 
         print("Database: Updated own class vars")
 
-    def getUserRepo(self) -> UserRepo.UserRepo:
+    def getUserRepo(self) -> UserRepo:
         """
         Returns an instance of the UserRepo class.
 
         Returns:
             UserRepo: An instance of the UserRepo class.
         """
-        return UserRepo.UserRepo(self)
+        return UserRepo(self)
 
-    def getDayRepo(self) -> DayRepo.DayRepo:
+    def getDayRepo(self) -> DayRepo:
         """
         Returns an instance of the DayRepo class.
 
         Returns:
             DayRepo: An instance of the DayRepo class.
         """
-        return DayRepo.DayRepo(self)
+        return DayRepo(self)
 
-    def getMealRepo(self) -> MealRepo.MealRepo:
+    def getMealRepo(self) -> MealRepo:
         """
         Returns an instance of the MealRepo class.
 
         Returns:
             MealRepo: An instance of the MealRepo class.
         """
-        return MealRepo.MealRepo(self)
+        return MealRepo(self)
 
-    def getMealTypeRepo(self) -> MealTypeRepo.MealTypeRepo:
+    def getMealTypeRepo(self) -> MealTypeRepo:
         """
         Returns an instance of the MealTypeRepo class.
 
         Returns:
             MealTypeRepo: An instance of the MealTypeRepo class.
         """
-        return MealTypeRepo.MealTypeRepo(self)
+        return MealTypeRepo(self)
 
-    def getDayMealRepo(self) -> DayMealRepo.DayMealRepo:
+    def getDayMealRepo(self) -> DayMealRepo:
         """
         Returns an instance of the DayMealRepo class.
 
         Returns:
             DayMealRepo: An instance of the DayMealRepo class.
         """
-        return DayMealRepo.DayMealRepo(self)
+        return DayMealRepo(self)
 
     def isTokenValid(self, token: str) -> bool:
         """
@@ -164,3 +164,4 @@ class DatabaseWrapper:
             bool: True if the token is valid, False otherwise.
         """
         return token == self.validToken
+    
