@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>main_api_startpoint API documentation</title>
+<meta name="description" content="FastAPI-based module for handling meal tracking API endpoints …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>main_api_startpoint</code></h1>
+</header>
+<section id="section-intro">
+<p>FastAPI-based module for handling meal tracking API endpoints.</p>
+<p>This module provides the core functionality for managing user authentication, registration,
+and meal tracking operations such as adding, editing, and deleting meals. It uses Pydantic models
+to validate incoming requests and interacts with a MySQL database using custom repositories.</p>
+<p>Module includes:
+- Authentication (token validation)
+- User registration and login
+- Meal operations (add, edit, delete, and retrieve meals)
+- Fetching available meal types</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>FastAPI</li>
+<li>Pydantic</li>
+<li>Custom imports (databaseWrapper, logger, models like MealItem and GetMealsItem)</li>
+</ul>
+<p>Usage example:</p>
+<pre><code># Import the module
+import databaseWrapper as DatabaseWrapper
+import logger as Logger
+
+# Initialize components
+db_wrapper = DatabaseWrapper.DatabaseWrapper()
+logger = Logger.Logger()
+
+# Run the FastAPI app
+uvicorn.run(app, host="0.0.0.0", port=8000)
+</code></pre>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="main_api_startpoint.add_meal"><code class="name flex">
+<span>async def <span class="ident">add_meal</span></span>(<span>meal_item: <a title="main_api_startpoint.MealItemPydantic" href="#main_api_startpoint.MealItemPydantic">MealItemPydantic</a>, response: starlette.responses.Response)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds a new meal entry.</p></div>
+</dd>
+<dt id="main_api_startpoint.convert_pydantic_to_authentication_item"><code class="name flex">
+<span>def <span class="ident">convert_pydantic_to_authentication_item</span></span>(<span>auth_pydantic: <a title="main_api_startpoint.AuthenticationItemPydantic" href="#main_api_startpoint.AuthenticationItemPydantic">AuthenticationItemPydantic</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Converts a Pydantic AuthenticationItem model to the internal AuthenticationItem.</p></div>
+</dd>
+<dt id="main_api_startpoint.convert_pydantic_to_credentials_item"><code class="name flex">
+<span>def <span class="ident">convert_pydantic_to_credentials_item</span></span>(<span>credentials_pydantic: <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Converts a Pydantic CredentialsItem model to the internal CredentialsItem.</p></div>
+</dd>
+<dt id="main_api_startpoint.convert_pydantic_to_delete_meal_item"><code class="name flex">
+<span>def <span class="ident">convert_pydantic_to_delete_meal_item</span></span>(<span>delete_meal_pydantic: <a title="main_api_startpoint.DeleteMealItemPydantic" href="#main_api_startpoint.DeleteMealItemPydantic">DeleteMealItemPydantic</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Converts a Pydantic DeleteMealItem model to the internal DeleteMealItem.</p></div>
+</dd>
+<dt id="main_api_startpoint.convert_pydantic_to_get_meals_item"><code class="name flex">
+<span>def <span class="ident">convert_pydantic_to_get_meals_item</span></span>(<span>get_meals_pydantic: <a title="main_api_startpoint.GetMealsItemPydantic" href="#main_api_startpoint.GetMealsItemPydantic">GetMealsItemPydantic</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Converts a Pydantic GetMealsItem model to the internal GetMealsItem.</p></div>
+</dd>
+<dt id="main_api_startpoint.convert_pydantic_to_meal_item"><code class="name flex">
+<span>def <span class="ident">convert_pydantic_to_meal_item</span></span>(<span>meal_pydantic: <a title="main_api_startpoint.MealItemPydantic" href="#main_api_startpoint.MealItemPydantic">MealItemPydantic</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Converts a Pydantic MealItem model to the internal MealItem.</p></div>
+</dd>
+<dt id="main_api_startpoint.delete_meal"><code class="name flex">
+<span>async def <span class="ident">delete_meal</span></span>(<span>delete_meal_item: <a title="main_api_startpoint.DeleteMealItemPydantic" href="#main_api_startpoint.DeleteMealItemPydantic">DeleteMealItemPydantic</a>, response: starlette.responses.Response)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deletes a meal entry.</p></div>
+</dd>
+<dt id="main_api_startpoint.edit_meal"><code class="name flex">
+<span>async def <span class="ident">edit_meal</span></span>(<span>meal_item: <a title="main_api_startpoint.MealItemPydantic" href="#main_api_startpoint.MealItemPydantic">MealItemPydantic</a>, response: starlette.responses.Response)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Edits an existing meal entry.</p></div>
+</dd>
+<dt id="main_api_startpoint.get_meal_types"><code class="name flex">
+<span>async def <span class="ident">get_meal_types</span></span>(<span>credentials: <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a>, response: starlette.responses.Response)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fetches all available meal types.</p></div>
+</dd>
+<dt id="main_api_startpoint.get_meals"><code class="name flex">
+<span>async def <span class="ident">get_meals</span></span>(<span>get_meals_item: <a title="main_api_startpoint.GetMealsItemPydantic" href="#main_api_startpoint.GetMealsItemPydantic">GetMealsItemPydantic</a>, response: starlette.responses.Response)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fetches the meal entries for a user on a specific day.</p></div>
+</dd>
+<dt id="main_api_startpoint.login"><code class="name flex">
+<span>async def <span class="ident">login</span></span>(<span>credentials_item: <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a>, response: starlette.responses.Response)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Verifies user login credentials.</p></div>
+</dd>
+<dt id="main_api_startpoint.login_local"><code class="name flex">
+<span>def <span class="ident">login_local</span></span>(<span>credentials_item: <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a>, response: starlette.responses.Response, attempted_update=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Handles local login logic.</p></div>
+</dd>
+<dt id="main_api_startpoint.register"><code class="name flex">
+<span>async def <span class="ident">register</span></span>(<span>credentials_item: <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a>, response: starlette.responses.Response)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Registers a new user if token validation passes.</p></div>
+</dd>
+<dt id="main_api_startpoint.token"><code class="name flex">
+<span>async def <span class="ident">token</span></span>(<span>authentication_item: <a title="main_api_startpoint.AuthenticationItemPydantic" href="#main_api_startpoint.AuthenticationItemPydantic">AuthenticationItemPydantic</a>, response: starlette.responses.Response)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Validates the provided token and returns a response.</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="main_api_startpoint.AuthenticationItemPydantic"><code class="flex name class">
+<span>class <span class="ident">AuthenticationItemPydantic</span></span>
+<span>(</span><span>**data: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents authentication data for validation.</p>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<code>ValidationError</code>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><code>self</code> is explicitly positional-only to allow <code>self</code> as a field name.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AuthenticationItemPydantic(BaseModel):
+    &#34;&#34;&#34;Represents authentication data for validation.&#34;&#34;&#34;
+    token: str</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pydantic.main.BaseModel</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main_api_startpoint.AuthenticationItemPydantic.model_computed_fields"><code class="name">var <span class="ident">model_computed_fields</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.AuthenticationItemPydantic.model_config"><code class="name">var <span class="ident">model_config</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.AuthenticationItemPydantic.model_fields"><code class="name">var <span class="ident">model_fields</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.AuthenticationItemPydantic.token"><code class="name">var <span class="ident">token</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="main_api_startpoint.CredentialsItemPydantic"><code class="flex name class">
+<span>class <span class="ident">CredentialsItemPydantic</span></span>
+<span>(</span><span>**data: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents credentials for a user.</p>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<code>ValidationError</code>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><code>self</code> is explicitly positional-only to allow <code>self</code> as a field name.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CredentialsItemPydantic(BaseModel):
+    &#34;&#34;&#34;Represents credentials for a user.&#34;&#34;&#34;
+    token: str
+    userName: str
+    hashedPassword: str</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pydantic.main.BaseModel</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main_api_startpoint.CredentialsItemPydantic.hashedPassword"><code class="name">var <span class="ident">hashedPassword</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.CredentialsItemPydantic.model_computed_fields"><code class="name">var <span class="ident">model_computed_fields</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.CredentialsItemPydantic.model_config"><code class="name">var <span class="ident">model_config</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.CredentialsItemPydantic.model_fields"><code class="name">var <span class="ident">model_fields</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.CredentialsItemPydantic.token"><code class="name">var <span class="ident">token</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.CredentialsItemPydantic.userName"><code class="name">var <span class="ident">userName</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="main_api_startpoint.DeleteMealItemPydantic"><code class="flex name class">
+<span>class <span class="ident">DeleteMealItemPydantic</span></span>
+<span>(</span><span>**data: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents data required to delete a meal.</p>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<code>ValidationError</code>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><code>self</code> is explicitly positional-only to allow <code>self</code> as a field name.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DeleteMealItemPydantic(BaseModel):
+    &#34;&#34;&#34;Represents data required to delete a meal.&#34;&#34;&#34;
+    credentials: CredentialsItemPydantic
+    year: int
+    month: int
+    day: int
+    mealType: str</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pydantic.main.BaseModel</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main_api_startpoint.DeleteMealItemPydantic.credentials"><code class="name">var <span class="ident">credentials</span> : <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.DeleteMealItemPydantic.day"><code class="name">var <span class="ident">day</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.DeleteMealItemPydantic.mealType"><code class="name">var <span class="ident">mealType</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.DeleteMealItemPydantic.model_computed_fields"><code class="name">var <span class="ident">model_computed_fields</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.DeleteMealItemPydantic.model_config"><code class="name">var <span class="ident">model_config</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.DeleteMealItemPydantic.model_fields"><code class="name">var <span class="ident">model_fields</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.DeleteMealItemPydantic.month"><code class="name">var <span class="ident">month</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.DeleteMealItemPydantic.year"><code class="name">var <span class="ident">year</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="main_api_startpoint.GetMealsItemPydantic"><code class="flex name class">
+<span>class <span class="ident">GetMealsItemPydantic</span></span>
+<span>(</span><span>**data: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents the details for fetching meals for a user on a specific day.</p>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<code>ValidationError</code>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><code>self</code> is explicitly positional-only to allow <code>self</code> as a field name.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GetMealsItemPydantic(BaseModel):
+    &#34;&#34;&#34;Represents the details for fetching meals for a user on a specific day.&#34;&#34;&#34;
+    credentials: CredentialsItemPydantic
+    year: int
+    month: int
+    day: int</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pydantic.main.BaseModel</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main_api_startpoint.GetMealsItemPydantic.credentials"><code class="name">var <span class="ident">credentials</span> : <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.GetMealsItemPydantic.day"><code class="name">var <span class="ident">day</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.GetMealsItemPydantic.model_computed_fields"><code class="name">var <span class="ident">model_computed_fields</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.GetMealsItemPydantic.model_config"><code class="name">var <span class="ident">model_config</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.GetMealsItemPydantic.model_fields"><code class="name">var <span class="ident">model_fields</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.GetMealsItemPydantic.month"><code class="name">var <span class="ident">month</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.GetMealsItemPydantic.year"><code class="name">var <span class="ident">year</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="main_api_startpoint.MealItemPydantic"><code class="flex name class">
+<span>class <span class="ident">MealItemPydantic</span></span>
+<span>(</span><span>**data: Any)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents a meal entry for a specific day and meal type.</p>
+<p>Create a new model by parsing and validating input data from keyword arguments.</p>
+<p>Raises [<code>ValidationError</code>][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.</p>
+<p><code>self</code> is explicitly positional-only to allow <code>self</code> as a field name.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MealItemPydantic(BaseModel):
+    &#34;&#34;&#34;Represents a meal entry for a specific day and meal type.&#34;&#34;&#34;
+    credentials: CredentialsItemPydantic
+    year: int
+    month: int
+    day: int
+    mealType: str
+    fat_level: int  # 0: Low, 1: Medium, 2: High
+    sugar_level: int  # 0: Low, 1: Medium, 2: High</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pydantic.main.BaseModel</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main_api_startpoint.MealItemPydantic.credentials"><code class="name">var <span class="ident">credentials</span> : <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.MealItemPydantic.day"><code class="name">var <span class="ident">day</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.MealItemPydantic.fat_level"><code class="name">var <span class="ident">fat_level</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.MealItemPydantic.mealType"><code class="name">var <span class="ident">mealType</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.MealItemPydantic.model_computed_fields"><code class="name">var <span class="ident">model_computed_fields</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.MealItemPydantic.model_config"><code class="name">var <span class="ident">model_config</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.MealItemPydantic.model_fields"><code class="name">var <span class="ident">model_fields</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.MealItemPydantic.month"><code class="name">var <span class="ident">month</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.MealItemPydantic.sugar_level"><code class="name">var <span class="ident">sugar_level</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main_api_startpoint.MealItemPydantic.year"><code class="name">var <span class="ident">year</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="main_api_startpoint.add_meal" href="#main_api_startpoint.add_meal">add_meal</a></code></li>
+<li><code><a title="main_api_startpoint.convert_pydantic_to_authentication_item" href="#main_api_startpoint.convert_pydantic_to_authentication_item">convert_pydantic_to_authentication_item</a></code></li>
+<li><code><a title="main_api_startpoint.convert_pydantic_to_credentials_item" href="#main_api_startpoint.convert_pydantic_to_credentials_item">convert_pydantic_to_credentials_item</a></code></li>
+<li><code><a title="main_api_startpoint.convert_pydantic_to_delete_meal_item" href="#main_api_startpoint.convert_pydantic_to_delete_meal_item">convert_pydantic_to_delete_meal_item</a></code></li>
+<li><code><a title="main_api_startpoint.convert_pydantic_to_get_meals_item" href="#main_api_startpoint.convert_pydantic_to_get_meals_item">convert_pydantic_to_get_meals_item</a></code></li>
+<li><code><a title="main_api_startpoint.convert_pydantic_to_meal_item" href="#main_api_startpoint.convert_pydantic_to_meal_item">convert_pydantic_to_meal_item</a></code></li>
+<li><code><a title="main_api_startpoint.delete_meal" href="#main_api_startpoint.delete_meal">delete_meal</a></code></li>
+<li><code><a title="main_api_startpoint.edit_meal" href="#main_api_startpoint.edit_meal">edit_meal</a></code></li>
+<li><code><a title="main_api_startpoint.get_meal_types" href="#main_api_startpoint.get_meal_types">get_meal_types</a></code></li>
+<li><code><a title="main_api_startpoint.get_meals" href="#main_api_startpoint.get_meals">get_meals</a></code></li>
+<li><code><a title="main_api_startpoint.login" href="#main_api_startpoint.login">login</a></code></li>
+<li><code><a title="main_api_startpoint.login_local" href="#main_api_startpoint.login_local">login_local</a></code></li>
+<li><code><a title="main_api_startpoint.register" href="#main_api_startpoint.register">register</a></code></li>
+<li><code><a title="main_api_startpoint.token" href="#main_api_startpoint.token">token</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="main_api_startpoint.AuthenticationItemPydantic" href="#main_api_startpoint.AuthenticationItemPydantic">AuthenticationItemPydantic</a></code></h4>
+<ul class="">
+<li><code><a title="main_api_startpoint.AuthenticationItemPydantic.model_computed_fields" href="#main_api_startpoint.AuthenticationItemPydantic.model_computed_fields">model_computed_fields</a></code></li>
+<li><code><a title="main_api_startpoint.AuthenticationItemPydantic.model_config" href="#main_api_startpoint.AuthenticationItemPydantic.model_config">model_config</a></code></li>
+<li><code><a title="main_api_startpoint.AuthenticationItemPydantic.model_fields" href="#main_api_startpoint.AuthenticationItemPydantic.model_fields">model_fields</a></code></li>
+<li><code><a title="main_api_startpoint.AuthenticationItemPydantic.token" href="#main_api_startpoint.AuthenticationItemPydantic.token">token</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a></code></h4>
+<ul class="">
+<li><code><a title="main_api_startpoint.CredentialsItemPydantic.hashedPassword" href="#main_api_startpoint.CredentialsItemPydantic.hashedPassword">hashedPassword</a></code></li>
+<li><code><a title="main_api_startpoint.CredentialsItemPydantic.model_computed_fields" href="#main_api_startpoint.CredentialsItemPydantic.model_computed_fields">model_computed_fields</a></code></li>
+<li><code><a title="main_api_startpoint.CredentialsItemPydantic.model_config" href="#main_api_startpoint.CredentialsItemPydantic.model_config">model_config</a></code></li>
+<li><code><a title="main_api_startpoint.CredentialsItemPydantic.model_fields" href="#main_api_startpoint.CredentialsItemPydantic.model_fields">model_fields</a></code></li>
+<li><code><a title="main_api_startpoint.CredentialsItemPydantic.token" href="#main_api_startpoint.CredentialsItemPydantic.token">token</a></code></li>
+<li><code><a title="main_api_startpoint.CredentialsItemPydantic.userName" href="#main_api_startpoint.CredentialsItemPydantic.userName">userName</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main_api_startpoint.DeleteMealItemPydantic" href="#main_api_startpoint.DeleteMealItemPydantic">DeleteMealItemPydantic</a></code></h4>
+<ul class="">
+<li><code><a title="main_api_startpoint.DeleteMealItemPydantic.credentials" href="#main_api_startpoint.DeleteMealItemPydantic.credentials">credentials</a></code></li>
+<li><code><a title="main_api_startpoint.DeleteMealItemPydantic.day" href="#main_api_startpoint.DeleteMealItemPydantic.day">day</a></code></li>
+<li><code><a title="main_api_startpoint.DeleteMealItemPydantic.mealType" href="#main_api_startpoint.DeleteMealItemPydantic.mealType">mealType</a></code></li>
+<li><code><a title="main_api_startpoint.DeleteMealItemPydantic.model_computed_fields" href="#main_api_startpoint.DeleteMealItemPydantic.model_computed_fields">model_computed_fields</a></code></li>
+<li><code><a title="main_api_startpoint.DeleteMealItemPydantic.model_config" href="#main_api_startpoint.DeleteMealItemPydantic.model_config">model_config</a></code></li>
+<li><code><a title="main_api_startpoint.DeleteMealItemPydantic.model_fields" href="#main_api_startpoint.DeleteMealItemPydantic.model_fields">model_fields</a></code></li>
+<li><code><a title="main_api_startpoint.DeleteMealItemPydantic.month" href="#main_api_startpoint.DeleteMealItemPydantic.month">month</a></code></li>
+<li><code><a title="main_api_startpoint.DeleteMealItemPydantic.year" href="#main_api_startpoint.DeleteMealItemPydantic.year">year</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main_api_startpoint.GetMealsItemPydantic" href="#main_api_startpoint.GetMealsItemPydantic">GetMealsItemPydantic</a></code></h4>
+<ul class="">
+<li><code><a title="main_api_startpoint.GetMealsItemPydantic.credentials" href="#main_api_startpoint.GetMealsItemPydantic.credentials">credentials</a></code></li>
+<li><code><a title="main_api_startpoint.GetMealsItemPydantic.day" href="#main_api_startpoint.GetMealsItemPydantic.day">day</a></code></li>
+<li><code><a title="main_api_startpoint.GetMealsItemPydantic.model_computed_fields" href="#main_api_startpoint.GetMealsItemPydantic.model_computed_fields">model_computed_fields</a></code></li>
+<li><code><a title="main_api_startpoint.GetMealsItemPydantic.model_config" href="#main_api_startpoint.GetMealsItemPydantic.model_config">model_config</a></code></li>
+<li><code><a title="main_api_startpoint.GetMealsItemPydantic.model_fields" href="#main_api_startpoint.GetMealsItemPydantic.model_fields">model_fields</a></code></li>
+<li><code><a title="main_api_startpoint.GetMealsItemPydantic.month" href="#main_api_startpoint.GetMealsItemPydantic.month">month</a></code></li>
+<li><code><a title="main_api_startpoint.GetMealsItemPydantic.year" href="#main_api_startpoint.GetMealsItemPydantic.year">year</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main_api_startpoint.MealItemPydantic" href="#main_api_startpoint.MealItemPydantic">MealItemPydantic</a></code></h4>
+<ul class="">
+<li><code><a title="main_api_startpoint.MealItemPydantic.credentials" href="#main_api_startpoint.MealItemPydantic.credentials">credentials</a></code></li>
+<li><code><a title="main_api_startpoint.MealItemPydantic.day" href="#main_api_startpoint.MealItemPydantic.day">day</a></code></li>
+<li><code><a title="main_api_startpoint.MealItemPydantic.fat_level" href="#main_api_startpoint.MealItemPydantic.fat_level">fat_level</a></code></li>
+<li><code><a title="main_api_startpoint.MealItemPydantic.mealType" href="#main_api_startpoint.MealItemPydantic.mealType">mealType</a></code></li>
+<li><code><a title="main_api_startpoint.MealItemPydantic.model_computed_fields" href="#main_api_startpoint.MealItemPydantic.model_computed_fields">model_computed_fields</a></code></li>
+<li><code><a title="main_api_startpoint.MealItemPydantic.model_config" href="#main_api_startpoint.MealItemPydantic.model_config">model_config</a></code></li>
+<li><code><a title="main_api_startpoint.MealItemPydantic.model_fields" href="#main_api_startpoint.MealItemPydantic.model_fields">model_fields</a></code></li>
+<li><code><a title="main_api_startpoint.MealItemPydantic.month" href="#main_api_startpoint.MealItemPydantic.month">month</a></code></li>
+<li><code><a title="main_api_startpoint.MealItemPydantic.sugar_level" href="#main_api_startpoint.MealItemPydantic.sugar_level">sugar_level</a></code></li>
+<li><code><a title="main_api_startpoint.MealItemPydantic.year" href="#main_api_startpoint.MealItemPydantic.year">year</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>
