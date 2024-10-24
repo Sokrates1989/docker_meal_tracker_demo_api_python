@@ -32,6 +32,8 @@ Usage example:
 
 # Public imports.
 from fastapi import FastAPI, Response
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import json
 import os
@@ -59,7 +61,11 @@ with open(config_file_path, 'r') as config_file:
 db_wrapper = DatabaseWrapper.DatabaseWrapper()
 logger = Logger.Logger()
 
-app = FastAPI()
+# Instantiate Fast api with Middleware to allow CORS (Options) Requests.
+# Web-Apps in browsers often/ usually send CORS requests as "preflight" to other requests.
+app = FastAPI(middleware=[
+    Middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+])
 
 # Models
 class AuthenticationItemPydantic(BaseModel):
