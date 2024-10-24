@@ -124,7 +124,7 @@ async def root_get():
     Logs the request and sends a 200 OK status with a message.
     """
     logger.logInformation("/root_get: 200: called")
-    return {"message": "https://github.com/Sokrates1989/docker_api_engaige_meal_tracker_demo.git"}
+    return {"message": "https://github.com/Sokrates1989/docker_meal_tracker_demo_api_python"}
 
 
 @app.post("/")
@@ -134,7 +134,7 @@ async def root_post():
     Logs the request and sends a 200 OK status with a message.
     """
     logger.logInformation("/root_post: 200: called")
-    return {"message": "https://github.com/Sokrates1989/docker_api_engaige_meal_tracker_demo.git"}
+    return {"message": "https://github.com/Sokrates1989/docker_meal_tracker_demo_api_python"}
 
 
 
