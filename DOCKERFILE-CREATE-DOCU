@@ -1,0 +1,27 @@
+# Use Python as base image.
+FROM python:3.12.7
+
+# Enable Virtual Environment.
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+# Upgrade pip.
+RUN python -m pip install --upgrade pip
+
+# Install pip dependencies.
+COPY docker/pip_install.txt /code/pip_install.txt
+RUN pip install --no-cache-dir -r /code/pip_install.txt
+
+# Upgrade pip dependencies from the upgrade file.
+COPY docker/pip_upgrade.txt /code/pip_upgrade.txt
+RUN pip install --no-cache-dir --upgrade -r /code/pip_upgrade.txt
+
+# Install pdoc3 for generating documentation.
+RUN pip install --no-cache-dir pdoc3 markdown
+
+# Set the working directory inside the container to /code.
+WORKDIR /code
+
+# Copy the entire project directory into the container.
+COPY . /code

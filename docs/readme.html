@@ -1,0 +1,105 @@
+<h1>Docker Meal Tracker API Demo (Python)</h1>
+<p>This API serves as a <strong>demonstration</strong> for user authentication and meal tracking functionalities, designed for <strong>evaluation purposes only</strong>. It allows users to register, log in, and perform CRUD operations on meals using Docker for containerized deployment. This demo is not intended for production use and is provided under an <strong>Evaluation License</strong>.</p>
+<hr />
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#project-overview">Project Overview</a></li>
+<li><a href="#initial-setup">Initial Setup</a><ul>
+<li><a href="#cloning-the-repository">Cloning the Repository</a></li>
+<li><a href="#setting-up-configuration">Setting Up Configuration</a></li>
+</ul>
+</li>
+<li><a href="#local-deployment-for-development">Local Deployment for Development</a><ul>
+<li><a href="#building-with-docker-compose">Building with Docker Compose</a></li>
+</ul>
+</li>
+<li><a href="#production-deployment">Production Deployment</a><ul>
+<li><a href="#building-the-docker-image">Building the Docker Image</a></li>
+<li><a href="#pushing-to-docker-hub">Pushing to Docker Hub</a></li>
+<li><a href="#deploying-with-docker-swarm">Deploying with Docker Swarm</a></li>
+</ul>
+</li>
+<li><a href="#documentation">Documentation</a><ul>
+<li><a href="#viewing-documentation-online">Viewing Documentation Online</a></li>
+<li><a href="#generating-api-documentation">Generating API Documentation</a></li>
+<li><a href="#manual-integration-of-readmemd">Integrate this README into the documentation</a> </li>
+</ul>
+</li>
+<li><a href="#license">License</a></li>
+</ol>
+<hr />
+<h2>Project Overview</h2>
+<p>This demo API provides basic functionality for meal tracking, including user authentication and meal management. Built using FastAPI and MySQL, it supports operations such as registering users, logging in, and managing meal data (adding, editing, deleting meals). The project leverages Docker for seamless deployment in both local and production environments.</p>
+<p>This project is designed <strong>for evaluation purposes only</strong> and should not be used in a production environment.</p>
+<h3>Key Features</h3>
+<ul>
+<li><strong>User Authentication:</strong> Register and log in users with token-based authentication.</li>
+<li><strong>Meal Tracking:</strong> Add, edit, and delete meals.</li>
+<li><strong>Containerized Deployment:</strong> Docker Compose for local development and Docker Swarm for production deployment.</li>
+</ul>
+<hr />
+<h2>Initial Setup</h2>
+<h3>Cloning the Repository</h3>
+<p>First, clone the repository to your local environment:</p>
+<p><code>bash
+mkdir -p /path/to/api/directory/meal-tracker-api-python
+cd /path/to/api/directory/meal-tracker-api-python
+git clone https://github.com/yourusername/meal-tracker-api-python.git .</code></p>
+<h3>Setting Up Configuration</h3>
+<p>After cloning, copy the template configuration files to the appropriate locations:</p>
+<p><code>bash
+cp config.txt.template config.txt
+cp .env.template .env</code></p>
+<p>Edit these files to configure your environment variables:</p>
+<ul>
+<li><strong>config.txt:</strong> Configure your database settings, encryption keys, and other API-related settings.</li>
+<li><strong>.env:</strong> Set up sensitive environment variables like database credentials and API tokens.</li>
+</ul>
+<hr />
+<h2>Local Deployment for Development</h2>
+<h3>Building with Docker Compose</h3>
+<p>To deploy the API locally for development and testing, use Docker Compose to build and run the container:</p>
+<p><code>bash
+docker-compose -f /path/to/docker-compose.yml up</code></p>
+<p>Make sure that the <code>.env</code> and <code>config.txt</code> files are correctly configured before running the command. This setup is recommended for local development only.</p>
+<hr />
+<h2>Production Deployment</h2>
+<p>For production, we recommend building the Docker image, pushing it to Docker Hub, and deploying the service using Docker Swarm.</p>
+<h3>Building the Docker Image</h3>
+<p>Build the Docker image locally using the following command:</p>
+<p><code>bash
+docker build -t yourdockerhubusername/meal-tracker-api-python:latest .</code></p>
+<h3>Pushing to Docker Hub</h3>
+<p>Once the image is built, push it to your Docker Hub repository:</p>
+<p><code>bash
+docker push yourdockerhubusername/meal-tracker-api-python:latest</code></p>
+<h3>Deploying with Docker Swarm</h3>
+<p>To deploy the API on a Docker Swarm cluster, pull the image from Docker Hub and create a service:</p>
+<p><code>bash
+docker service create --name meal-tracker-api-python --replicas 3 --publish 8080:8080 yourdockerhubusername/meal-tracker-api-python:latest</code></p>
+<p>Ensure that your <code>.env</code> and configuration files are properly set up before deploying the service in production.</p>
+<hr />
+<h2>Documentation</h2>
+<h3>Viewing Documentation Online</h3>
+<p>An online version of the project's internal developer documentation can be found at:<br />
+<a href="https://api-python-doku.engaige.fe-wi.com/">https://api-python-doku.engaige.fe-wi.com/</a></p>
+<h3>Generating API Documentation</h3>
+<p>To generate the project's documentation locally, follow these steps:</p>
+<h4>1. Use Docker Compose to Generate Documentation</h4>
+<p>Instead of manually installing dependencies on your system, you can use the provided Docker Compose setup to generate the documentation automatically.</p>
+<h4>Build the Docker Container for Documentation Generation:</h4>
+<p>In the root directory of the project, run the following command:</p>
+<p><code>bash
+docker-compose -f docker-compose-create-doc.yml up</code></p>
+<p>This will build and run a container that generates the documentation inside the docs/ folder of your project. The DOCKERFILE-CREATE-DOCU Dockerfile defines how the container is built, including all dependencies like pdoc3.</p>
+<h4>2. Locate the Generated HTML Files:</h4>
+<ul>
+<li>The API documentation will be located in docs/index.html.</li>
+<li>The README.md will be converted into docs/readme.html.</li>
+</ul>
+<h4>3. Insert the Converted README Content:</h4>
+<p>Open the docs/index.html file and manually copy the HTML content from readme.html into the appropriate section in index.html.</p>
+<hr />
+<h2>License</h2>
+<p>This software is provided under an <strong>Evaluation License Agreement</strong>. It may only be used for evaluation purposes and cannot be modified, copied, or distributed without the express permission of the author.</p>
+<p>For full details, please refer to the <a href="./LICENSE">LICENSE</a> file.</p>

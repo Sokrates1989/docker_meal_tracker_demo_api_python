@@ -1,0 +1,23 @@
+services:
+  meal_tracker_demo_doc_generator:
+    build:
+      context: .
+      dockerfile: DOCKERFILE-CREATE-DOCU
+    container_name: meal_tracker_demo_doc_generator
+    volumes:
+      - .:/code
+    working_dir: /code
+    command: ["pdoc", "--html", "--output-dir", "/code/docs", "/code/src", "/code/main_api_startpoint.py"]
+
+  meal_tracker_demo_readme_html_converter:
+    build:
+      context: .
+      dockerfile: DOCKERFILE-CREATE-DOCU
+    container_name: meal_tracker_demo_readme_html_converter
+    volumes:
+      - .:/code
+    working_dir: /code
+    command: ["python", "-c", "import markdown; \
+              readme_content = open('/code/README.md').read(); \
+              html_content = markdown.markdown(readme_content); \
+              open('/code/docs/readme.html', 'w').write(html_content);"]

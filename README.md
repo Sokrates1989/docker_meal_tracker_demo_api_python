@@ -20,6 +20,7 @@ This API serves as a **demonstration** for user authentication and meal tracking
 5. [Documentation](#documentation)
     - [Viewing Documentation Online](#viewing-documentation-online)
     - [Generating API Documentation](#generating-api-documentation)
+    - [Integrate this README into the documentation](#manual-integration-of-readmemd) 
 6. [License](#license)
 
 ---
@@ -123,78 +124,25 @@ An online version of the project's internal developer documentation can be found
 
 To generate the project's documentation locally, follow these steps:
 
-#### Activate Virtual Environment
+#### 1. Use Docker Compose to Generate Documentation
+Instead of manually installing dependencies on your system, you can use the provided Docker Compose setup to generate the documentation automatically.
 
-Create a virtual environment if you haven't already:
+#### Build the Docker Container for Documentation Generation:
 
-```bash
-python -m venv venv_meal_tracker_demo_api_python
-```
-
-Activate the virtual environment:
-
-- On Windows:
-
-  ```bash
-  .\venv_meal_tracker_demo_api_python\Scripts\activate
-  ```
-
-- On macOS/Linux:
-
-  ```bash
-  source venv_meal_tracker_demo_api_python/bin/activate
-  ```
-
-#### Install Dependencies
-
-Install the required dependencies from the `pip_install.txt` file, and then install pdoc3:
+In the root directory of the project, run the following command:
 
 ```bash
-pip install -r docker/pip_install.txt
-pip install pdoc3
+docker-compose -f docker-compose-create-doc.yml up
 ```
 
-#### Generate Documentation
+This will build and run a container that generates the documentation inside the docs/ folder of your project. The DOCKERFILE-CREATE-DOCU Dockerfile defines how the container is built, including all dependencies like pdoc3.
 
-To generate the documentation:
+#### 2. Locate the Generated HTML Files:
+- The API documentation will be located in docs/index.html.
+- The README.md will be converted into docs/readme.html.
 
-```bash
-pdoc --html --output-dir docs ./src ./main_api_startpoint.py
-```
-
-The documentation will be generated in the `docs/` folder. Open the `index.html` file in your browser to view the documentation.
-
-#### Manual Integration of README.md
-
-1. **Locate the Generated HTML File:**  
-After running the `pdoc3` command, the `index.html` file will be created inside the `docs` folder.
-
-2. **Convert README.md to HTML:**  
-Convert the `README.md` to HTML using Python’s markdown package:
-
-   ```bash
-   pip install markdown
-   ```
-
-   Run this Python script:
-
-   ```python
-   import markdown
-
-   with open("README.md", "r") as md_file:
-       readme_content = md_file.read()
-
-   html_content = markdown.markdown(readme_content)
-
-   with open("readme.html", "w") as html_file:
-       html_file.write(html_content)
-   ```
-
-3. **Insert the Converted HTML:**  
-Manually copy the HTML content from `readme.html` and paste it into the `docs/index.html` file.
-
-4. **Style the Inserted Content:**  
-Use CSS in the `docs/_static` directory to style the README content if necessary.
+#### 3. Insert the Converted README Content:
+Open the docs/index.html file and manually copy the HTML content from readme.html into the appropriate section in index.html.
 
 ---
 
