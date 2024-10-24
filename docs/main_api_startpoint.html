@@ -42,12 +42,12 @@ to validate incoming requests and interacts with a MySQL database using custom r
 </ul>
 <p>Usage example:</p>
 <pre><code># Import the module
-import databaseWrapper as DatabaseWrapper
-import logger as Logger
+from src.utils.databaseWrapper import DatabaseWrapper
+from src.utils.logger import Logger
 
 # Initialize components
-db_wrapper = DatabaseWrapper.DatabaseWrapper()
-logger = Logger.Logger()
+db_wrapper = DatabaseWrapper()
+logger = Logger()
 
 # Run the FastAPI app
 uvicorn.run(app, host="0.0.0.0", port=8000)
