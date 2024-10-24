@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/code
     working_dir: /code
-    command: ["pdoc", "--html", "--output-dir", "/code/docs", "/code/src", "/code/main_api_startpoint.py"]
+    command: ["pdoc", "--html", "--force", "--output-dir", "/code/docs", "/code/src", "/code/main_api_startpoint.py"]
 
   meal_tracker_demo_readme_html_converter:
     build:
