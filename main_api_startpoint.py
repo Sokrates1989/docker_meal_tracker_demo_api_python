@@ -113,6 +113,31 @@ class GetMealsItemPydantic(BaseModel):
     month: int
     day: int
 
+
+
+# Endpoints.
+
+@app.get("/")
+async def root_get():
+    """
+    GET endpoint that returns a simple message with the project repository URL.
+    Logs the request and sends a 200 OK status with a message.
+    """
+    logger.logInformation("/root_get: 200: called")
+    return {"message": "https://github.com/Sokrates1989/docker_api_engaige_meal_tracker_demo.git"}
+
+
+@app.post("/")
+async def root_post():
+    """
+    POST endpoint that returns a simple message with the project repository URL.
+    Logs the request and sends a 200 OK status with a message.
+    """
+    logger.logInformation("/root_post: 200: called")
+    return {"message": "https://github.com/Sokrates1989/docker_api_engaige_meal_tracker_demo.git"}
+
+
+
 @app.post("/v1/token")
 async def token(authentication_item: AuthenticationItemPydantic, response: Response):
     """Validates the provided token and returns a response."""
