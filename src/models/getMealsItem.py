@@ -1,4 +1,4 @@
-from credentialsItem import CredentialsItem
+from src.models.credentialsItem import CredentialsItem
 
 class GetMealsItem:
     """

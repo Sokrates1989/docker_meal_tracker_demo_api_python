@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>src.utils.logger API documentation</title>
+<meta name="description" content="Logger class for logging information, warnings, and errors …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>src.utils.logger</code></h1>
+</header>
+<section id="section-intro">
+<p>Logger class for logging information, warnings, and errors.</p>
+<p>Logs are written to both day-based files (logs separated by day) and global logs (aggregated over time).
+Logs are saved in the following structure:
+1. Global error log file (errorlog.txt)
+2. Global log file (log.txt)
+3. Day-based error log files (one per day)
+4. Day-based log files (one per day)</p>
+<p>Log entries are timestamped and categorized as INFO, WARNING, or ERROR.</p>
+<h2 id="functions">Functions</h2>
+<ul>
+<li>logError: Logs an error message to all error and log files.</li>
+<li>logWarning: Logs a warning message to all error and log files.</li>
+<li>logInformation: Logs an information message to log files.</li>
+<li>updateDayBasedLogFilePaths: Updates file paths for day-based log files.</li>
+</ul>
+<p>Usage example:</p>
+<pre><code># Initialize the logger
+logger = Logger(logScope="api")
+
+# Log error, warning, and information messages
+logger.logError("An error occurred")
+logger.logWarning("This is a warning")
+logger.logInformation("This is an info log")
+</code></pre>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="src.utils.logger.Logger"><code class="flex name class">
+<span>class <span class="ident">Logger</span></span>
+<span>(</span><span>logScope: str = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Logger class for logging messages (INFO, WARNING, ERROR) into both global and day-based log files.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>logScope</code></strong> :&ensp;<code>str</code></dt>
+<dd>The scope of the logger to categorize the log messages.</dd>
+<dt><strong><code>logPath</code></strong> :&ensp;<code>str</code></dt>
+<dd>The base path for logs.</dd>
+<dt><strong><code>globalErrorLogFile</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the global error log file.</dd>
+<dt><strong><code>globalLogFile</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the global log file.</dd>
+<dt><strong><code>dayLogPath</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path for day-based logs.</dd>
+<dt><strong><code>dayBasedErrorLogFile</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the current day-based error log file.</dd>
+<dt><strong><code>dayBasedLogFile</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the current day-based log file.</dd>
+</dl>
+<p>Initializes the Logger class, sets up log paths, and creates necessary log files.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>logScope</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>The scope of the logger (e.g., "api"). Defaults to the value in the config.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Logger:
+    &#34;&#34;&#34;
+    Logger class for logging messages (INFO, WARNING, ERROR) into both global and day-based log files.
+    
+    Attributes:
+        logScope (str): The scope of the logger to categorize the log messages.
+        logPath (str): The base path for logs.
+        globalErrorLogFile (str): Path to the global error log file.
+        globalLogFile (str): Path to the global log file.
+        dayLogPath (str): Path for day-based logs.
+        dayBasedErrorLogFile (str): Path to the current day-based error log file.
+        dayBasedLogFile (str): Path to the current day-based log file.
+    &#34;&#34;&#34;
+
+    def __init__(self, logScope: str = None):
+        &#34;&#34;&#34;
+        Initializes the Logger class, sets up log paths, and creates necessary log files.
+
+        Args:
+            logScope (str, optional): The scope of the logger (e.g., &#34;api&#34;). Defaults to the value in the config.
+        &#34;&#34;&#34;
+        config_file_pathAndName = os.path.join(os.path.dirname(__file__), &#34;..&#34;, &#34;..&#34;, &#34;config.txt&#34;)
+        with open(config_file_pathAndName) as config_file:
+            config_array = json.load(config_file)
+
+        # Determine log scope (default or custom)
+        if logScope is None or logScope.lower() == str(config_array[&#34;logger&#34;][&#34;default_logScope&#34;]).lower():
+            logScopeStartText = str(config_array[&#34;logger&#34;][&#34;default_logScope&#34;]).upper()
+            self.logtext_info = f&#34;{logScopeStartText}_INFO&#34;
+            self.logtext_warning = f&#34;{logScopeStartText}_WARNING&#34;
+            self.logtext_error = f&#34;{logScopeStartText}_ERROR&#34;
+        else:
+            self.logtext_info = &#34;UNKNOWN_INFO&#34;
+            self.logtext_warning = &#34;UNKNOWN_WARNING&#34;
+            self.logtext_error = &#34;UNKNOWN_ERROR&#34;
+
+        # Set up log paths and create global log files
+        self.logPath = os.path.join(config_array[&#34;installPath&#34;], &#34;logs&#34;)
+        self.globalErrorLogFile = os.path.join(self.logPath, &#34;errorlog.txt&#34;)
+        self.globalLogFile = os.path.join(self.logPath, &#34;log.txt&#34;)
+        fileUtils.createFileIfNotExists(self.globalErrorLogFile)
+        fileUtils.createFileIfNotExists(self.globalLogFile)
+
+        # Set up day-based log paths
+        self.dayLogPath = os.path.join(self.logPath, &#34;dayBased&#34;)
+        self.updateDayBasedLogFilePaths()
+
+    def updateDayBasedLogFilePaths(self) -&gt; None:
+        &#34;&#34;&#34;
+        Updates the file paths for the current day-based log and error log files.
+        This method is called before logging to ensure logs are written to the correct day-based files.
+        &#34;&#34;&#34;
+        dateStringForLogFileName = dateStringUtils.getDateStringForLogFileName()
+        dayBasedErrorLogFileName = f&#34;{dateStringForLogFileName}_errorlog.txt&#34;
+        dayBasedLogFileName = f&#34;{dateStringForLogFileName}_log.txt&#34;
+        self.dayBasedErrorLogFile = os.path.join(self.dayLogPath, dayBasedErrorLogFileName)
+        self.dayBasedLogFile = os.path.join(self.dayLogPath, dayBasedLogFileName)
+        fileUtils.createFileIfNotExists(self.dayBasedErrorLogFile)
+        fileUtils.createFileIfNotExists(self.dayBasedLogFile)
+
+    def logError(self, errorToLog: str) -&gt; None:
+        &#34;&#34;&#34;
+        Logs an error message to the global error log, global log, day-based error log, and day-based log.
+
+        Args:
+            errorToLog (str): The error message to be logged.
+        &#34;&#34;&#34;
+        self.updateDayBasedLogFilePaths()
+        fullLogText = f&#34;\n{dateStringUtils.getDateStringForLogTag()} - [{self.logtext_error}] - [{errorToLog}]&#34;
+        self.__log(self.globalErrorLogFile, fullLogText)
+        self.__log(self.globalLogFile, fullLogText)
+        self.__log(self.dayBasedErrorLogFile, fullLogText)
+        self.__log(self.dayBasedLogFile, fullLogText)
+
+    def logWarning(self, warningToLog: str) -&gt; None:
+        &#34;&#34;&#34;
+        Logs a warning message to the global error log, global log, day-based error log, and day-based log.
+
+        Args:
+            warningToLog (str): The warning message to be logged.
+        &#34;&#34;&#34;
+        self.updateDayBasedLogFilePaths()
+        fullLogText = f&#34;\n{dateStringUtils.getDateStringForLogTag()} - [{self.logtext_warning}] - [{warningToLog}]&#34;
+        self.__log(self.globalErrorLogFile, fullLogText)
+        self.__log(self.globalLogFile, fullLogText)
+        self.__log(self.dayBasedErrorLogFile, fullLogText)
+        self.__log(self.dayBasedLogFile, fullLogText)
+
+    def logInformation(self, informationToLog: str) -&gt; None:
+        &#34;&#34;&#34;
+        Logs an information message to the global log and day-based log.
+
+        Args:
+            informationToLog (str): The information message to be logged.
+        &#34;&#34;&#34;
+        self.updateDayBasedLogFilePaths()
+        fullLogText = f&#34;\n{dateStringUtils.getDateStringForLogTag()} - [{self.logtext_info}] - [{informationToLog}]&#34;
+        self.__log(self.globalLogFile, fullLogText)
+        self.__log(self.dayBasedLogFile, fullLogText)
+
+    def __log(self, file: str, fullLogText: str) -&gt; None:
+        &#34;&#34;&#34;
+        Private helper function to append a log entry to a specified file.
+
+        Args:
+            file (str): The file path to write the log entry to.
+            fullLogText (str): The full log entry string.
+        &#34;&#34;&#34;
+        with open(file, &#39;a+&#39;) as f:
+            f.write(fullLogText)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="src.utils.logger.Logger.logError"><code class="name flex">
+<span>def <span class="ident">logError</span></span>(<span>self, errorToLog: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Logs an error message to the global error log, global log, day-based error log, and day-based log.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>errorToLog</code></strong> :&ensp;<code>str</code></dt>
+<dd>The error message to be logged.</dd>
+</dl></div>
+</dd>
+<dt id="src.utils.logger.Logger.logInformation"><code class="name flex">
+<span>def <span class="ident">logInformation</span></span>(<span>self, informationToLog: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Logs an information message to the global log and day-based log.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>informationToLog</code></strong> :&ensp;<code>str</code></dt>
+<dd>The information message to be logged.</dd>
+</dl></div>
+</dd>
+<dt id="src.utils.logger.Logger.logWarning"><code class="name flex">
+<span>def <span class="ident">logWarning</span></span>(<span>self, warningToLog: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Logs a warning message to the global error log, global log, day-based error log, and day-based log.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>warningToLog</code></strong> :&ensp;<code>str</code></dt>
+<dd>The warning message to be logged.</dd>
+</dl></div>
+</dd>
+<dt id="src.utils.logger.Logger.updateDayBasedLogFilePaths"><code class="name flex">
+<span>def <span class="ident">updateDayBasedLogFilePaths</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates the file paths for the current day-based log and error log files.
+This method is called before logging to ensure logs are written to the correct day-based files.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="src.utils" href="index.html">src.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="src.utils.logger.Logger" href="#src.utils.logger.Logger">Logger</a></code></h4>
+<ul class="">
+<li><code><a title="src.utils.logger.Logger.logError" href="#src.utils.logger.Logger.logError">logError</a></code></li>
+<li><code><a title="src.utils.logger.Logger.logInformation" href="#src.utils.logger.Logger.logInformation">logInformation</a></code></li>
+<li><code><a title="src.utils.logger.Logger.logWarning" href="#src.utils.logger.Logger.logWarning">logWarning</a></code></li>
+<li><code><a title="src.utils.logger.Logger.updateDayBasedLogFilePaths" href="#src.utils.logger.Logger.updateDayBasedLogFilePaths">updateDayBasedLogFilePaths</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

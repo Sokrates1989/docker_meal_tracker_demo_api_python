@@ -109,6 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+venv*
 
 # Spyder project settings
 .spyderproject
@@ -129,8 +130,6 @@ dmypy.json
 .pyre/
 
 
-
-
 ## Custom gitignore adaptions.
 
 # IDE.
@@ -142,18 +141,37 @@ config.txt
 # Ignore the Environment (.env) file, that contains passwords and connection details.
 .env
 
-# Do not version logs. 
+# Do not version message sent states. 
+messageSentStates
 
-# Do not version logs, but keep folder structure.
+# Makefiles and batch scripts (generalized for make-related files)
+Makefile
+make*.bat
+
+# Documentation build artifacts (only exclude the _build directory)
+docs/_build/
+source/
+
+# Ignore any generated or temporary project build artifacts
+*.tmp
+*.bak
+*.swp
+
+# Log files (but keep structure with .gitkeep)
 logs/*
 !logs/.gitkeep
 logs/dayBased/*
 !logs/dayBased/
 !logs/dayBased/.gitkeep
 
-# Do not version message sent states. 
+# Authentication and sensitive configuration files
+*.key
+*.pem
+*.crt
+**/service_account_key.json
+config.txt
+
+# State files, caches, or other temporary data
+*.state
 messageSentStates
-
-# Do not version google drive authentication key. 
-service_account_key.json
-
+*.cache
