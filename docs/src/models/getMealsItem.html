@@ -40,18 +40,7 @@ hljs.highlightAll();
 <span>(</span><span>credentialsItem: <a title="src.models.credentialsItem.CredentialsItem" href="credentialsItem.html#src.models.credentialsItem.CredentialsItem">CredentialsItem</a>, year: int, month: int, day: int)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Model used to wrap the details for getting meals sent to the API.</p>
-<p>Json model of a valid GetMealsItem to send to the API:
-{
-"credentials": {
-"token": "<your_actual_token_here>",
-"userName": "<your_actual_username_here>",
-"hashedPassword": "<your_actual_hashed_password_here>"
-},
-"year": 2024,
-"month": 10,
-"day": 12
-}</p>
+<div class="desc"><p>Model used to wrap the details for getting meals sent to the API to use globally.</p>
 <h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>credentialsItem</code></strong> :&ensp;<code>CredentialsItem</code></dt>
@@ -81,19 +70,7 @@ hljs.highlightAll();
 </summary>
 <pre><code class="python">class GetMealsItem:
     &#34;&#34;&#34;
-    Model used to wrap the details for getting meals sent to the API.
-
-    Json model of a valid GetMealsItem to send to the API:
-    {
-        &#34;credentials&#34;: {
-            &#34;token&#34;: &#34;&lt;your_actual_token_here&gt;&#34;,
-            &#34;userName&#34;: &#34;&lt;your_actual_username_here&gt;&#34;,
-            &#34;hashedPassword&#34;: &#34;&lt;your_actual_hashed_password_here&gt;&#34;
-        },
-        &#34;year&#34;: 2024,
-        &#34;month&#34;: 10,
-        &#34;day&#34;: 12
-    }
+    Model used to wrap the details for getting meals sent to the API to use globally.
 
     Attributes:
         credentialsItem (CredentialsItem): The credentials of the user.

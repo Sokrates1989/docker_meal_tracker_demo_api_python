@@ -64,7 +64,8 @@ uvicorn.run(app, host="0.0.0.0", port=8000)
 <span>async def <span class="ident">add_meal</span></span>(<span>meal_item: <a title="main_api_startpoint.MealItemPydantic" href="#main_api_startpoint.MealItemPydantic">MealItemPydantic</a>, response: starlette.responses.Response)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds a new meal entry.</p></div>
+<div class="desc"><p>POST /v1/addMeal endpoint.
+Adds a new meal entry.</p></div>
 </dd>
 <dt id="main_api_startpoint.convert_pydantic_to_authentication_item"><code class="name flex">
 <span>def <span class="ident">convert_pydantic_to_authentication_item</span></span>(<span>auth_pydantic: <a title="main_api_startpoint.AuthenticationItemPydantic" href="#main_api_startpoint.AuthenticationItemPydantic">AuthenticationItemPydantic</a>)</span>
@@ -100,31 +101,36 @@ uvicorn.run(app, host="0.0.0.0", port=8000)
 <span>async def <span class="ident">delete_meal</span></span>(<span>delete_meal_item: <a title="main_api_startpoint.DeleteMealItemPydantic" href="#main_api_startpoint.DeleteMealItemPydantic">DeleteMealItemPydantic</a>, response: starlette.responses.Response)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Deletes a meal entry.</p></div>
+<div class="desc"><p>POST /v1/deleteMeal endpoint.
+Deletes a meal entry.</p></div>
 </dd>
 <dt id="main_api_startpoint.edit_meal"><code class="name flex">
 <span>async def <span class="ident">edit_meal</span></span>(<span>meal_item: <a title="main_api_startpoint.MealItemPydantic" href="#main_api_startpoint.MealItemPydantic">MealItemPydantic</a>, response: starlette.responses.Response)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Edits an existing meal entry.</p></div>
+<div class="desc"><p>POST /v1/editMeal endpoint.
+Edits an existing meal entry.</p></div>
 </dd>
 <dt id="main_api_startpoint.get_meal_types"><code class="name flex">
 <span>async def <span class="ident">get_meal_types</span></span>(<span>credentials: <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a>, response: starlette.responses.Response)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Fetches all available meal types.</p></div>
+<div class="desc"><p>POST /v1/getMealTypes endpoint.
+Fetches all available meal types.</p></div>
 </dd>
 <dt id="main_api_startpoint.get_meals"><code class="name flex">
 <span>async def <span class="ident">get_meals</span></span>(<span>get_meals_item: <a title="main_api_startpoint.GetMealsItemPydantic" href="#main_api_startpoint.GetMealsItemPydantic">GetMealsItemPydantic</a>, response: starlette.responses.Response)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Fetches the meal entries for a user on a specific day.</p></div>
+<div class="desc"><p>POST /v1/getMeals endpoint.
+Fetches the meal entries for a user on a specific day.</p></div>
 </dd>
 <dt id="main_api_startpoint.login"><code class="name flex">
 <span>async def <span class="ident">login</span></span>(<span>credentials_item: <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a>, response: starlette.responses.Response)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Verifies user login credentials.</p></div>
+<div class="desc"><p>POST /v1/login endpoint.
+Verifies user login credentials.</p></div>
 </dd>
 <dt id="main_api_startpoint.login_local"><code class="name flex">
 <span>def <span class="ident">login_local</span></span>(<span>credentials_item: <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a>, response: starlette.responses.Response, attempted_update=False)</span>
@@ -136,13 +142,31 @@ uvicorn.run(app, host="0.0.0.0", port=8000)
 <span>async def <span class="ident">register</span></span>(<span>credentials_item: <a title="main_api_startpoint.CredentialsItemPydantic" href="#main_api_startpoint.CredentialsItemPydantic">CredentialsItemPydantic</a>, response: starlette.responses.Response)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Registers a new user if token validation passes.</p></div>
+<div class="desc"><p>POST /v1/register endpoint.
+Registers a new user if token validation passes.</p></div>
+</dd>
+<dt id="main_api_startpoint.root_get"><code class="name flex">
+<span>async def <span class="ident">root_get</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>GET / endpoint.
+Returns a simple message with the project repository URL.
+Logs the request and sends a 200 OK status with a message.</p></div>
+</dd>
+<dt id="main_api_startpoint.root_post"><code class="name flex">
+<span>async def <span class="ident">root_post</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>POST / endpoint.
+Returns a simple message with the project repository URL.
+Logs the request and sends a 200 OK status with a message.</p></div>
 </dd>
 <dt id="main_api_startpoint.token"><code class="name flex">
 <span>async def <span class="ident">token</span></span>(<span>authentication_item: <a title="main_api_startpoint.AuthenticationItemPydantic" href="#main_api_startpoint.AuthenticationItemPydantic">AuthenticationItemPydantic</a>, response: starlette.responses.Response)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Validates the provided token and returns a response.</p></div>
+<div class="desc"><p>POST /v1/token endpoint.
+Validates the provided token and returns a response.</p></div>
 </dd>
 </dl>
 </section>
@@ -155,6 +179,10 @@ uvicorn.run(app, host="0.0.0.0", port=8000)
 </code></dt>
 <dd>
 <div class="desc"><p>Represents authentication data for validation.</p>
+<p>Json model of a valid AuthenticationItem to send to the API:
+{
+"token": "<your_actual_token_here>"
+}</p>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
 <p>Raises [<code>ValidationError</code>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
@@ -164,7 +192,14 @@ validated to form a valid model.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class AuthenticationItemPydantic(BaseModel):
-    &#34;&#34;&#34;Represents authentication data for validation.&#34;&#34;&#34;
+    &#34;&#34;&#34;
+    Represents authentication data for validation.
+
+    Json model of a valid AuthenticationItem to send to the API:
+    {
+        &#34;token&#34;: &#34;&lt;your_actual_token_here&gt;&#34;
+    }
+    &#34;&#34;&#34;
     token: str</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -197,6 +232,12 @@ validated to form a valid model.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Represents credentials for a user.</p>
+<p>Json model of a valid CredentialsItem to send to the API:
+{
+"token": "<your_actual_token_here>",
+"userName": "<your_actual_username_here>",
+"hashedPassword": "<your_actual_hashed_password_here>"
+}</p>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
 <p>Raises [<code>ValidationError</code>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
@@ -206,7 +247,16 @@ validated to form a valid model.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class CredentialsItemPydantic(BaseModel):
-    &#34;&#34;&#34;Represents credentials for a user.&#34;&#34;&#34;
+    &#34;&#34;&#34;
+    Represents credentials for a user.
+
+    Json model of a valid CredentialsItem to send to the API:
+    {
+        &#34;token&#34;: &#34;&lt;your_actual_token_here&gt;&#34;,
+        &#34;userName&#34;: &#34;&lt;your_actual_username_here&gt;&#34;,
+        &#34;hashedPassword&#34;: &#34;&lt;your_actual_hashed_password_here&gt;&#34;
+    }
+    &#34;&#34;&#34;
     token: str
     userName: str
     hashedPassword: str</code></pre>
@@ -249,6 +299,18 @@ validated to form a valid model.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Represents data required to delete a meal.</p>
+<p>Json model of a valid DeleteMealItem to send to the API:
+{
+"credentials": {
+"token": "<your_actual_token_here>",
+"userName": "<your_actual_username_here>",
+"hashedPassword": "<your_actual_hashed_password_here>"
+},
+"year": 2024,
+"month": 10,
+"day": 12,
+"mealType": "Dinner"
+}</p>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
 <p>Raises [<code>ValidationError</code>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
@@ -258,7 +320,22 @@ validated to form a valid model.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class DeleteMealItemPydantic(BaseModel):
-    &#34;&#34;&#34;Represents data required to delete a meal.&#34;&#34;&#34;
+    &#34;&#34;&#34;
+    Represents data required to delete a meal.
+
+    Json model of a valid DeleteMealItem to send to the API:
+    {
+        &#34;credentials&#34;: {
+            &#34;token&#34;: &#34;&lt;your_actual_token_here&gt;&#34;,
+            &#34;userName&#34;: &#34;&lt;your_actual_username_here&gt;&#34;,
+            &#34;hashedPassword&#34;: &#34;&lt;your_actual_hashed_password_here&gt;&#34;
+        },
+        &#34;year&#34;: 2024,
+        &#34;month&#34;: 10,
+        &#34;day&#34;: 12,
+        &#34;mealType&#34;: &#34;Dinner&#34;
+    }
+    &#34;&#34;&#34;
     credentials: CredentialsItemPydantic
     year: int
     month: int
@@ -311,6 +388,17 @@ validated to form a valid model.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Represents the details for fetching meals for a user on a specific day.</p>
+<p>Json model of a valid GetMealsItem to send to the API:
+{
+"credentials": {
+"token": "<your_actual_token_here>",
+"userName": "<your_actual_username_here>",
+"hashedPassword": "<your_actual_hashed_password_here>"
+},
+"year": 2024,
+"month": 10,
+"day": 12
+}</p>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
 <p>Raises [<code>ValidationError</code>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
@@ -320,7 +408,21 @@ validated to form a valid model.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class GetMealsItemPydantic(BaseModel):
-    &#34;&#34;&#34;Represents the details for fetching meals for a user on a specific day.&#34;&#34;&#34;
+    &#34;&#34;&#34;
+    Represents the details for fetching meals for a user on a specific day.
+
+    Json model of a valid GetMealsItem to send to the API:
+    {
+        &#34;credentials&#34;: {
+            &#34;token&#34;: &#34;&lt;your_actual_token_here&gt;&#34;,
+            &#34;userName&#34;: &#34;&lt;your_actual_username_here&gt;&#34;,
+            &#34;hashedPassword&#34;: &#34;&lt;your_actual_hashed_password_here&gt;&#34;
+        },
+        &#34;year&#34;: 2024,
+        &#34;month&#34;: 10,
+        &#34;day&#34;: 12
+    }
+    &#34;&#34;&#34;
     credentials: CredentialsItemPydantic
     year: int
     month: int
@@ -368,6 +470,20 @@ validated to form a valid model.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Represents a meal entry for a specific day and meal type.</p>
+<p>Json model of a valid MealItem to send to the API:
+{
+"credentials": {
+"token": "<your_actual_token_here>",
+"userName": "<your_actual_username_here>",
+"hashedPassword": "<your_actual_hashed_password_here>"
+},
+"year": 2024,
+"month": 10,
+"day": 12,
+"mealType": "Lunch",
+"fat_level": 1,
+"sugar_level": 2
+}</p>
 <p>Create a new model by parsing and validating input data from keyword arguments.</p>
 <p>Raises [<code>ValidationError</code>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
@@ -377,7 +493,24 @@ validated to form a valid model.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class MealItemPydantic(BaseModel):
-    &#34;&#34;&#34;Represents a meal entry for a specific day and meal type.&#34;&#34;&#34;
+    &#34;&#34;&#34;
+    Represents a meal entry for a specific day and meal type.
+
+    Json model of a valid MealItem to send to the API:
+    {
+        &#34;credentials&#34;: {
+            &#34;token&#34;: &#34;&lt;your_actual_token_here&gt;&#34;,
+            &#34;userName&#34;: &#34;&lt;your_actual_username_here&gt;&#34;,
+            &#34;hashedPassword&#34;: &#34;&lt;your_actual_hashed_password_here&gt;&#34;
+        },
+        &#34;year&#34;: 2024,
+        &#34;month&#34;: 10,
+        &#34;day&#34;: 12,
+        &#34;mealType&#34;: &#34;Lunch&#34;,
+        &#34;fat_level&#34;: 1,
+        &#34;sugar_level&#34;: 2
+    }
+    &#34;&#34;&#34;
     credentials: CredentialsItemPydantic
     year: int
     month: int
@@ -457,6 +590,8 @@ validated to form a valid model.</p>
 <li><code><a title="main_api_startpoint.login" href="#main_api_startpoint.login">login</a></code></li>
 <li><code><a title="main_api_startpoint.login_local" href="#main_api_startpoint.login_local">login_local</a></code></li>
 <li><code><a title="main_api_startpoint.register" href="#main_api_startpoint.register">register</a></code></li>
+<li><code><a title="main_api_startpoint.root_get" href="#main_api_startpoint.root_get">root_get</a></code></li>
+<li><code><a title="main_api_startpoint.root_post" href="#main_api_startpoint.root_post">root_post</a></code></li>
 <li><code><a title="main_api_startpoint.token" href="#main_api_startpoint.token">token</a></code></li>
 </ul>
 </li>
