@@ -6,12 +6,7 @@
 
 class AuthenticationItem:
     """
-    Model used to wrap authentication settings sent to the API.
-
-    Json model of a valid AuthenticationItem to send to the API:
-    {
-      "token": "<your_actual_token_here>"
-    }
+    Model used to wrap authentication settings sent to the API to use globally.
 
     Attributes:
         token (str): The authentication token sent by the user.

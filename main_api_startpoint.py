@@ -74,20 +74,54 @@ app = FastAPI(middleware=[
 ])
 
 # Models
+
 class AuthenticationItemPydantic(BaseModel):
-    """Represents authentication data for validation."""
+    """
+    Represents authentication data for validation.
+
+    Json model of a valid AuthenticationItem to send to the API:
+    {
+        "token": "<your_actual_token_here>"
+    }
+    """
     token: str
 
 
 class CredentialsItemPydantic(BaseModel):
-    """Represents credentials for a user."""
+    """
+    Represents credentials for a user.
+
+    Json model of a valid CredentialsItem to send to the API:
+    {
+        "token": "<your_actual_token_here>",
+        "userName": "<your_actual_username_here>",
+        "hashedPassword": "<your_actual_hashed_password_here>"
+    }
+    """
     token: str
     userName: str
     hashedPassword: str
 
 
 class MealItemPydantic(BaseModel):
-    """Represents a meal entry for a specific day and meal type."""
+    """
+    Represents a meal entry for a specific day and meal type.
+
+    Json model of a valid MealItem to send to the API:
+    {
+        "credentials": {
+            "token": "<your_actual_token_here>",
+            "userName": "<your_actual_username_here>",
+            "hashedPassword": "<your_actual_hashed_password_here>"
+        },
+        "year": 2024,
+        "month": 10,
+        "day": 12,
+        "mealType": "Lunch",
+        "fat_level": 1,
+        "sugar_level": 2
+    }
+    """
     credentials: CredentialsItemPydantic
     year: int
     month: int
@@ -98,7 +132,22 @@ class MealItemPydantic(BaseModel):
 
 
 class DeleteMealItemPydantic(BaseModel):
-    """Represents data required to delete a meal."""
+    """
+    Represents data required to delete a meal.
+
+    Json model of a valid DeleteMealItem to send to the API:
+    {
+        "credentials": {
+            "token": "<your_actual_token_here>",
+            "userName": "<your_actual_username_here>",
+            "hashedPassword": "<your_actual_hashed_password_here>"
+        },
+        "year": 2024,
+        "month": 10,
+        "day": 12,
+        "mealType": "Dinner"
+    }
+    """
     credentials: CredentialsItemPydantic
     year: int
     month: int
@@ -107,7 +156,21 @@ class DeleteMealItemPydantic(BaseModel):
 
 
 class GetMealsItemPydantic(BaseModel):
-    """Represents the details for fetching meals for a user on a specific day."""
+    """
+    Represents the details for fetching meals for a user on a specific day.
+
+    Json model of a valid GetMealsItem to send to the API:
+    {
+        "credentials": {
+            "token": "<your_actual_token_here>",
+            "userName": "<your_actual_username_here>",
+            "hashedPassword": "<your_actual_hashed_password_here>"
+        },
+        "year": 2024,
+        "month": 10,
+        "day": 12
+    }
+    """
     credentials: CredentialsItemPydantic
     year: int
     month: int
@@ -115,12 +178,13 @@ class GetMealsItemPydantic(BaseModel):
 
 
 
-# Endpoints.
 
+# Endpoints.
 @app.get("/")
 async def root_get():
     """
-    GET endpoint that returns a simple message with the project repository URL.
+    GET / endpoint.
+    Returns a simple message with the project repository URL.
     Logs the request and sends a 200 OK status with a message.
     """
     logger.logInformation("/root_get: 200: called")
@@ -130,17 +194,20 @@ async def root_get():
 @app.post("/")
 async def root_post():
     """
-    POST endpoint that returns a simple message with the project repository URL.
+    POST / endpoint.
+    Returns a simple message with the project repository URL.
     Logs the request and sends a 200 OK status with a message.
     """
     logger.logInformation("/root_post: 200: called")
     return {"message": "https://github.com/Sokrates1989/docker_meal_tracker_demo_api_python"}
 
 
-
 @app.post("/v1/token")
 async def token(authentication_item: AuthenticationItemPydantic, response: Response):
-    """Validates the provided token and returns a response."""
+    """
+    POST /v1/token endpoint.
+    Validates the provided token and returns a response.
+    """
     auth_item = convert_pydantic_to_authentication_item(authentication_item)
     if auth_item.token == config_array["authentication"]["token"]:
         logger.logInformation(f"/v1/token: 200: valid token: {auth_item}")
@@ -153,7 +220,10 @@ async def token(authentication_item: AuthenticationItemPydantic, response: Respo
 
 @app.post("/v1/register")
 async def register(credentials_item: CredentialsItemPydantic, response: Response):
-    """Registers a new user if token validation passes."""
+    """
+    POST /v1/register endpoint.
+    Registers a new user if token validation passes.
+    """
     credentials = convert_pydantic_to_credentials_item(credentials_item)
     if credentials.token == config_array["authentication"]["token"]:
         create_user_result = db_wrapper.getUserRepo().createNewUser_fromCredentialsItem(credentials)
@@ -177,8 +247,13 @@ async def register(credentials_item: CredentialsItemPydantic, response: Response
 
 @app.post("/v1/login")
 async def login(credentials_item: CredentialsItemPydantic, response: Response):
-    """Verifies user login credentials."""
+    """
+    POST /v1/login endpoint.
+    Verifies user login credentials.
+    """
     return login_local(credentials_item, response)
+
+
 
 
 def login_local(credentials_item: CredentialsItemPydantic, response: Response, attempted_update=False):
@@ -219,7 +294,10 @@ def login_local(credentials_item: CredentialsItemPydantic, response: Response, a
 
 @app.post("/v1/addMeal")
 async def add_meal(meal_item: MealItemPydantic, response: Response):
-    """Adds a new meal entry."""
+    """
+    POST /v1/addMeal endpoint.
+    Adds a new meal entry.
+    """
     meal = convert_pydantic_to_meal_item(meal_item)
 
     # Validate token
@@ -282,7 +360,10 @@ async def add_meal(meal_item: MealItemPydantic, response: Response):
 
 @app.post("/v1/editMeal")
 async def edit_meal(meal_item: MealItemPydantic, response: Response):
-    """Edits an existing meal entry."""
+    """
+    POST /v1/editMeal endpoint.
+    Edits an existing meal entry.
+    """
     meal = convert_pydantic_to_meal_item(meal_item)
 
     # Validate token
@@ -351,7 +432,10 @@ async def edit_meal(meal_item: MealItemPydantic, response: Response):
 
 @app.post("/v1/deleteMeal")
 async def delete_meal(delete_meal_item: DeleteMealItemPydantic, response: Response):
-    """Deletes a meal entry."""
+    """
+    POST /v1/deleteMeal endpoint.
+    Deletes a meal entry.
+    """
     delete_meal = convert_pydantic_to_delete_meal_item(delete_meal_item)
 
     # Validate token
@@ -423,7 +507,10 @@ async def delete_meal(delete_meal_item: DeleteMealItemPydantic, response: Respon
 
 @app.post("/v1/getMeals")
 async def get_meals(get_meals_item: GetMealsItemPydantic, response: Response):
-    """Fetches the meal entries for a user on a specific day."""
+    """
+    POST /v1/getMeals endpoint.
+    Fetches the meal entries for a user on a specific day.
+    """
     get_meals = convert_pydantic_to_get_meals_item(get_meals_item)
 
     # Validate token
@@ -486,7 +573,10 @@ async def get_meals(get_meals_item: GetMealsItemPydantic, response: Response):
 
 @app.post("/v1/getMealTypes")
 async def get_meal_types(credentials: CredentialsItemPydantic, response: Response):
-    """Fetches all available meal types."""
+    """
+    POST /v1/getMealTypes endpoint.
+    Fetches all available meal types.
+    """
     try:
         # Validate token
         if credentials.token != config_array["authentication"]["token"]:
@@ -509,6 +599,7 @@ async def get_meal_types(credentials: CredentialsItemPydantic, response: Respons
         response.status_code = 500
         logger.logError(f"/v1/getMealTypes: 500: unhandled exception: {str(e)}")
         return {"message": "unhandled exception"}
+
 
 
 # Helper functions for converting Pydantic models to internal models

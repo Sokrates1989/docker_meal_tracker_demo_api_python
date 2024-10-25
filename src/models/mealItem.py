@@ -8,22 +8,7 @@ from src.models.credentialsItem import CredentialsItem
 
 class MealItem:
     """
-    Model used to wrap the details for a meal sent to the API.
-
-    Json model of a valid MealItem to send to the API:
-    {
-        "credentials": {
-            "token": "<your_actual_token_here>",
-            "userName": "<your_actual_username_here>",
-            "hashedPassword": "<your_actual_hashed_password_here>"
-        },
-        "year": 2024,
-        "month": 10,
-        "day": 12,
-        "mealType": "lunch",
-        "fat_level": 1,
-        "sugar_level": 2
-    }
+    Model used to wrap the details for a meal sent to the API to use globally.
 
     Attributes:
         credentialsItem (CredentialsItem): The credentials of the user.

@@ -6,14 +6,7 @@
 
 class CredentialsItem:
     """
-    Model used to wrap user credentials sent to the API.
-
-    Json model of a valid CredentialsItem to send to the API:
-    {
-      "token": "<your_actual_token_here>",
-      "userName": "<your_actual_username_here>",
-      "hashedPassword": "<your_actual_hashed_password_here>"
-    }
+    Model used to wrap user credentials sent to the API to use globally.
 
     Attributes:
         token (str): The authentication token sent by the user.
